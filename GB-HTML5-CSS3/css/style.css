@@ -1,0 +1,79 @@
+.sprite {
+    background-image: url(../img/spritesheet.png);
+    background-repeat: no-repeat;
+    display: block;
+}
+
+.email-icon {
+    width: 22px;
+    height: 22px;
+    background-position: -5px -5px;
+}
+
+.icq-icon {
+    width: 26px;
+    height: 26px;
+    background-position: -5px -37px;
+}
+
+.phone-icon {
+    width: 24px;
+    height: 23px;
+    background-position: -5px -73px;
+}
+
+.skype-icon {
+    width: 24px;
+    height: 26px;
+    background-position: -5px -106px;
+
+}
+
+body {
+    width: 1280px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.bgGrey {
+    background: #445162;
+}
+.bgGreyLight {
+    background: #989898;
+}
+
+header {
+    height: 323px;
+}
+
+footer {
+    height: 535px;
+}
+
+.about {
+
+}
+.dignity {}
+.screenshots {}
+.reviews {}
+.reviewText {
+    background: rgb(173, 208, 247);
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    position: relative; /* !!! */
+    padding: 5px;
+    margin-left: 9px;
+    width: 300px;
+    text-align: center;
+    box-shadow: 1px 1px 3px 0 black;
+}
+
+.reviewText:before {
+    content: '';
+    border: 10px solid transparent;
+    border-right: 10px solid rgb(173, 208, 247);
+    position: absolute;
+    left: -20px;
+    top: 50%;
+    margin-top: -10px;
+}
+.buy {}
