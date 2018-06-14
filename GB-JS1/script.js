@@ -57,3 +57,41 @@ for (count = 0; count < 20; count++) {
     console.log(row);
     row = 'x' + row;
 }
+
+/*Бонусная задача
+Напишите программу, создающую строку, содержащую решётку 8х8, в которой линии разделяются символами новой строки. На каждой позиции либо пробел, либо #. В результате должна получиться шахматная доска.
+
+# # # #
+ # # # #
+# # # #
+ # # # #
+# # # #
+ # # # #
+# # # #
+ # # # #
+
+Когда справитесь, сделайте размер доски переменным, чтобы можно было создавать доски любого размера.*/
+var row = '';
+var sizeField = 8;
+for (countCol = 0; countCol < sizeField; countCol++) {
+    for (countRow = 0; countRow < sizeField; countRow++) {
+        if (countCol%2 == 0) {
+            if (countRow%2 == 0) {
+                row = row + '#'
+            }
+            else {
+                row = row + ' ';
+            }
+        }
+        else {
+            if (countRow%2 == 0) {
+                row = row + ' '
+            }
+            else {
+                row = row + '#';
+            }
+        }
+    }
+    row = row + '\n';
+}
+console.log(row);
