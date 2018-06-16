@@ -64,7 +64,7 @@ h2 {
     font-size: 30px;
 }
 section {
-    margin: 50px auto;
+    padding: 50px;
 }
 
 /*Header*/
@@ -96,10 +96,6 @@ header li {
 /*Footer*/
 footer {
     height: 535px;
-}
-
-.copyright {
-    height: 26px;
 }
 
 input::-ms-input-placeholder {
@@ -134,12 +130,32 @@ textarea::placeholder {
     color: #445162;
 }
 
-/*Main*/
-main {
-    width: 1180px;
-    margin: 0 auto;
+.skype {
 }
 
+.social {
+
+}
+
+.social li {
+    display: inline-block;
+    list-style: none;
+}
+
+.social a {
+    font: 400 60px "Socialico";
+    text-decoration: none;
+    color: #fff;
+}
+.copyright {
+    position: relative;
+    bottom: 0;
+    height: 26px;
+    background: #fff;
+    text-align: center;
+}
+
+/*Main*/
 .about {
 }
 
@@ -170,8 +186,7 @@ main {
     -moz-border-radius: 5px;
     position: relative; /* !!! */
     padding: 10px;
-    margin-left: 16px;
-    margin-right: 16px;
+    margin: 0 16px;
     width: 450px;
     height: 121px;
 }
@@ -195,7 +210,7 @@ main {
 }
 
 .buyList {
-    vertical-align: bottom;
+    align-items: flex-end;
 }
 
 .buyList div {
@@ -211,22 +226,4 @@ main {
     text-align: center;
     font-size: 40px;
     font-weight: 400;
-}
-
-.skype {
-}
-
-.social {
-
-}
-
-.social li {
-    display: inline-block;
-    list-style: none;
-}
-
-.social a {
-    font: 400 60px "Socialico";
-    text-decoration: none;
-    color: #ffffff;
 }
