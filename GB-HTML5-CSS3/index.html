@@ -2,12 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>GeekBrains - HTML55 CSS3 | Урок 1</title>
-    <link rel="stylesheet" href="./css/normalize.css">
+    <title>GeekBrains - HTML55 CSS3 | Урок 3</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+
     <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
-<header class="bgGrey flex">
+<header class="flex">
+    <video src="./src/bg.mp4" autoplay loop></video>
     <div class="headerText">
         <h1>Product name</h1>
         <ul>
@@ -21,7 +24,7 @@
 </header>
 <main>
     <section class="about flex">
-        <div>
+        <div class="aboutText">
             <h2>About your product</h2>
             <p>
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nobis facilis fuga, illo at. Natus eos,
@@ -218,8 +221,8 @@
     <div class="footerContent flex">
         <div>
             <form action="">
-                <input type="text" placeholder="Your name:">
-                <input type="email" placeholder="Your email:">
+                <input type="text" placeholder="Your name:" required>
+                <input type="email" pattern="^([A-Za-z0-9\.-]+)(@)([A-Za-z0-9\.-]+)(\.)([A-Za-z0-9\.-]{2,})$" placeholder="Your email:" required>
                 <textarea name="message" id="" cols="30" rows="10" placeholder="Your message:"></textarea>
                 <input type="submit" value="Send">
             </form>
@@ -243,5 +246,8 @@
 
     <div class="copyright">Copyright &copy; 2014 Product name · PSD HTML CSS</div>
 </footer>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>
 </html>
