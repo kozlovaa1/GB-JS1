@@ -1,97 +1,131 @@
-//1) С помощью цикла whcountle вывести все простые числа в промежутке от 0 до 100
-var count = 0;
-while (count++ < 100) {
-    if (count > 10) {
-        if (count % 2 == 0 || count % 10 == 5) {
-            continue;
-        }
-    }
-    var i = 1;
-    while (i++ < count) {
-        if ((i * i - 1) > count) {
-            console.log(count);
-            break;
-        }
-        if (count % i == 0) {
-            break;
-        }
+// 1) Написать функцию, преобразующую число в объект. Передавая на вход число от 0 до 999, мы должны получить на выходе объект, в котором в соответствующих свойствах описаны единицы, десятки и сотни. Например, для числа 245 мы должны получить следующий объект: {‘единицы’: 5, ‘десятки’: 4, ‘сотни’: 2}. Если число превышает 999, необходимо выдать соответствующее сообщение с помощью console.log и вернуть пустой объект.
 
-    }
-}
-/*2) С помощью цикла do…while написать функцию для вывода чисел от 0 до 10, чтобы результат выглядел так:
-    0 – это ноль
-1 – нечетное число
-2 – четное число
-3 – нечетное число
-…
-10 – четное число*/
-count = 0
-do {
-    if (count == 0) {
-        console.log(count + ' - это ноль');
-    }
-    else if (count % 2 == 0) {
-        console.log(count + ' - четное число');
-    }
-    else {
-        console.log(count + ' - нечетное число');
-    }
-    count++;
-} while (count <= 10);
 
-/*3) * Вывести с помощью цикла for числа от 0 до 9, НЕ используя тело цикла. То есть выглядеть должно вот так:
+// 2) Для игры, реализованной на уроке, добавить возможность вывода хода номер n (номер задается пользователем)
+//var number = []; // четыре цифры нашего числа
+var attempts = 0; // число попыток
+var allResult = []; //массив для хранения результатов всех попыток
 
-    for(…){// здесь пусто}*/
-for (count = 0; count <= 9; console.log(count++)) {
+generateNumber(); //сгенерировали неповторяющиеся значения массива
+alert(number);
+guessNumber();
+
+while (confirm('Хотите просмотреть один из ходов?')) {
+    checkAttempts();
 }
 
-/*4) * Нарисовать пирамиду с помощью console.log, как показано на рисунке, только у вашей пирамиды должно быть 20 рядов, а не 5:
+function generateNumber() {
+    number = [];//массив с уникальными цифрами
+    var min = 0;
+    var max = 9;
 
-x
-xx
-xxx
-xxxx
-xxxxx*/
-var row = 'x';
-for (count = 0; count < 20; count++) {
-    console.log(row);
-    row = 'x' + row;
-}
+    // заполняем массив цифр в числе
+    for (var i = 0; i < 4; i++) {
+        var part = Math.round(Math.random() * (max - min) + min);
 
-/*Бонусная задача
-Напишите программу, создающую строку, содержащую решётку 8х8, в которой линии разделяются символами новой строки. На каждой позиции либо пробел, либо #. В результате должна получиться шахматная доска.
-
-# # # #
- # # # #
-# # # #
- # # # #
-# # # #
- # # # #
-# # # #
- # # # #
-
-Когда справитесь, сделайте размер доски переменным, чтобы можно было создавать доски любого размера.*/
-var row = '';
-var sizeField = 8;
-for (countCol = 0; countCol < sizeField; countCol++) {
-    for (countRow = 0; countRow < sizeField; countRow++) {
-        if (countCol%2 == 0) {
-            if (countRow%2 == 0) {
-                row = row + '#'
-            }
-            else {
-                row = row + ' ';
-            }
+        // первое число всегда уникально
+        if (i == 0) {
+            number[0] = part;
         }
         else {
-            if (countRow%2 == 0) {
-                row = row + ' '
+            // пока не сгенерируется уникальное число, генерируем новые случайные числа
+            while (number.indexOf(part) != -1) {//элемент найден
+                part = Math.round(min + Math.random() * (max - min));
+            }
+
+            number[i] = part;
+        }
+    }
+}
+
+function guessNumber() {
+    var result = prompt("Введите число (-1 - закончить игру)", 0);
+    var gameIsRunning = true;
+
+    // пока игрок не угадал число
+    while (gameIsRunning) {
+        // выход из игры
+        if (parseInt(result) == -1) {
+            gameIsRunning = false;
+            allResult[attempts] = result + '. Вы прервали игру.';
+        }
+        // игрок ввел некорректные данные
+        else if (parseInt(result) == 0 || isNaN(parseInt(result))) {
+            alert("Вы не ввели число");
+            // запрашиваем по новой
+            result = prompt("Введите число (-1 - закончить игру)", 0);
+            allResult[attempts] = result;
+        }
+        // проверяем число
+        else {
+            var answer = checkNumber(result);//answer[false,1,1]
+            allResult[attempts] = result + ". Быки: " + answer[1] + " Коровы: " + answer[2] + ".";
+            if (answer[0]) {
+                // число угадано
+                alert("Поздравляем! Вы угадали число. Кол-во попыток: " + attempts);
+                allResult[attempts] = allResult[attempts] + ' Игра окончена, вы победили.';
+                // останавливаем игру
+                gameIsRunning = false;
             }
             else {
-                row = row + '#';
+                // следующий ход
+                result = prompt("Быки: " + answer[1] + " Коровы: " + answer[2] + " Введите число (-1 - закончить игру)", 0);
+
+
             }
         }
     }
-    row = row + '\n';
 }
-console.log(row);
+
+function checkNumber(myresult) {
+    // каждая проверка увеличивает кол-во попыток на 1
+    attempts++;
+
+    // массив результата
+    // 0 - общий результат
+    // 1 - быки
+    // 2 - коровы
+    var answer = [false, 0, 0];
+
+    // раскладываем число на разряды
+    console.log(myresult);
+    console.log(number);
+
+    /*s = "1_2_3_4";
+    mas = s.split("_")
+    */
+
+    var ranks = myresult.split("");//массив, полученный из введенного числа
+
+    for (var i = 0; i < ranks.length; i++) {
+        // если по индексу значения совпадают, то это бык
+        if (parseInt(ranks[i]) == number[i]) {
+            answer[1]++;
+        }
+        // если число вообще есть в массиве, то это корова
+        else if (number.indexOf(parseInt(ranks[i])) != -1) {
+            answer[2]++;
+        }
+    }
+
+    // если набралось 4 быка, то это победа
+    if (answer[1] == 4) {
+        answer[0] = true;
+    }
+
+    return answer;
+}
+
+function checkAttempts() {
+    // Вводим номер хода
+    var numberAttempt = parseInt(prompt('Введите номер хода от 1 до ' + (allResult.length - 1)));
+
+    if (numberAttempt < allResult.length && numberAttempt > 0) {
+        alert('Ход ' + numberAttempt + '. Вы ввели значение ' + allResult[numberAttempt])
+    }
+    else {
+        alert('Такого хода не было!');
+    }
+}
+
+// 3) * На базе игры, созданной на уроке, реализовать игру «Кто хочет стать миллионером?»
