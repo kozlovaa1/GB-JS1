@@ -112,10 +112,6 @@ function checkNumber(myresult) {
     console.log(myresult);
     console.log(number);
 
-    /!*s = "1_2_3_4";
-    mas = s.split("_")
-    *!/
-
     var ranks = myresult.split("");//массив, полученный из введенного числа
 
     for (var i = 0; i < ranks.length; i++) {
