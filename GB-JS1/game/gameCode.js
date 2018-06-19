@@ -2,7 +2,7 @@ var event, ok;
 var i = 0;
 do {
     ok = false;
-    event = +prompt(game[i].question + game[i].answer1 + game[i].answer2 + game[i].answer3 + game[i].answer4 + '-1 - Выход из игры');
+    event = +prompt(game[i].question + game[i].answers + '-1 - Выход из игры');
     if (event == -1) {
         break;
     }
@@ -10,6 +10,9 @@ do {
         ok = isAnswer(event);
     }
 } while (!ok);
+if(event == game[i].correct)
+    answerCorrect++;
+
 switch (event) {
     case 1: // Первое действие  - если в первом окне ввели 1 то открываем серию окон - окно 2
         do {
