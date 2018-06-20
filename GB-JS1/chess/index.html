@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+<h1>Шахматная доска</h1>
+<div class="container">
+
+</div>
+</body>
+<script>
+    var board = document.getElementsByClassName("container");
+    var colLetter = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+    var pieces = {
+        king: ['&#9812;', '&#9818;', 'К'],
+        queen: ['&#9813;', '&#9820;', 'Ф'],
+        bishop: ['&#9815;', '&#9821;', 'С'],
+        knight: ['&#9816;', '&#9822;', 'к'],
+        rook: ['&#9814;', '&#9820;', 'Л'],
+        pawn: ['&#9817;', '&#9823;', 'П']
+    };
+    var j = 0;
+
+    for (var i = 0; i < 81; i++) {
+        var square = document.createElement('div');
+        square.innerHTML = '<div></div>'
+
+        if (i < 9 && i > 0) {
+            square.innerText = colLetter[i - 1];
+            square.className = 'letter';
+        }
+        else if (i % 9 == 0 && i > 0) {
+            j++;
+            square.innerText = j;
+            square.className = 'number';
+        }
+        else if (i > 0) {
+            if (i % 2 == 0) {
+                square.className = 'black ';
+            }
+            square.className += 'square';
+        }
+        board[0].appendChild(square);
+    }
+
+    var pieceSquare = document.getElementsByClassName("square");
+    for (i = 0; i < pieceSquare.length; i++) {
+        pieceSquare[i].innerText = pieces.king[0];
+
+    }
+</script>
+♔ &#9812;
+
+♕ &#9813;
+
+♖ &#9814;
+
+♗ &#9815;
+
+♘ &#9816;
+
+♙ &#9817;
+
+♚ &#9818;
+
+♛ &#9819;
+
+♜ &#9820;
+
+♝ &#9821;
+
+♞ &#9822;
+
+♟ &#9823;
+</html>
