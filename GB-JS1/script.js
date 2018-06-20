@@ -10,7 +10,15 @@ function getObject(number) {
     }
     else {
         var digits = number.toString().split(''); // приводим число к строке и разбиваем на элементы массива посимвольно
+        if (digits.length == 0) {
 
+        }
+        if (digits.length <= 2) {
+
+        }
+        if (digits.length <= 2) {
+
+        }
         if (digits.length <= 3) {
             numberObj.ones = digits[2];
             numberObj.tens = digits[1];
