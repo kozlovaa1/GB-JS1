@@ -12,3 +12,8 @@ h1 {
 .black {
     background: #000;
 }
+.letter, .number {
+    justify-self: center;
+    align-self: center;
+    font: 36px bold;
+}
