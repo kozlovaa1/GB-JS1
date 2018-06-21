@@ -2,11 +2,10 @@ var event, ok;
 
 function startGame() {
     var money = 0;
-    var answerCorrect = 0;
-    var gain = 0; // выигрыш
     var hold = 0; // несгораемая сумма
+    var event = 0;
     for (var i = 0; i < game.length; i++) {
-        if (i > 0 && confirm('Ок - продолжить игру. Отмена - забрать деньги и закончить игру.')) {
+        if (i > 0 && !confirm('Вы можете забрать деньги и закончить игру. Продолжаем игру?')) {
             alert('Поздравляем! Вы выиграли ' + money + ' монет!');
             break;
         }
@@ -21,28 +20,28 @@ function startGame() {
             }
         } while (!ok);
         if (event == game[i].correct) {
-            answerCorrect++;
             money = game[i].money;
+            alert('Верный ответ! Вы зарабатываете ' + money + ' монет.');
             if ((i + 1) % 5 == 0) {
                 hold = money;
-            } else {
-                break;
+            }
+            if (i == game.length - 1) {
+                alert('Поздравляем! Вы - миллионер!');
             }
         }
         else {
-            gain = hold;
-            if (gain == 0) {
-                alert("Это неправильный ответ! Все ваши деньги сгорают. Игра окончена.")
+            if (hold == 0) {
+                alert("Это неправильный ответ! Все ваши деньги сгорают.");
+                break;
             }
             else {
-                alert("Это неправильный ответ! Сумма вашего выигрыша - " + gain + " монет. Игра окончена.")
+                alert("Это неправильный ответ! Сумма вашего выигрыша - " + hold + " монет.");
+                break;
             }
         }
     }
-
-    alert('Спасибо за игру');
+    alert('Игра окончена.')
 }
-
 
 //------------------------------------------
 function isAnswer(event) {
