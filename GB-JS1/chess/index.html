@@ -58,7 +58,7 @@
             button.innerHTML = '<button></button>';
             button.innerText = 'Фигуры / Буквы';
             square.appendChild(button);
-            button.onclick = selectToLetter;
+            button.onclick = selectToLetter();
             square.className += 'squareButton';
         }
         board[0].appendChild(square);
