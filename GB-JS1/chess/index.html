@@ -23,8 +23,8 @@
     };
     var piece, j = 0, blackColor = 0, whiteColor = 1;
 
-    function selectToLetter() {
-        if (blackColor = 0 && whiteColor == 1) {
+    /*function selectToLetter() {
+        if (blackColor == 0 && whiteColor == 1) {
             blackColor = 2;
             whiteColor = 2;
         }
@@ -32,20 +32,26 @@
             blackColor = 0;
             whiteColor = 1;
         }
-    }
+    }*/
 
-    for (var i = 0; i < 81; i++) {
+    for (var i = 0; i < 100; i++) {
         var square = document.createElement('div');
         square.innerHTML = '<div></div>';
 
         if (i < 9 && i > 0) {
-            square.innerText = colLetter[i - 1];
-            square.className = 'letter';
+            var colLetterRev = colLetter.reverse();
+            square.innerText = colLetterRev[i - 1];
+            square.style.transform = 'rotate(180deg)';
+            square.className = 'letter ';
         }
-        else if (i % 9 == 0 && i > 0) {
+        if(i > 90) {
+            square.innerText = colLetter[i - 1];
+            square.className = 'letter ';
+        }
+        else if (i % 10 == 0 && i > 0) {
             j++;
             square.innerText = j;
-            square.className = 'number';
+            square.className = 'number ';
         }
         else if (i > 0) {
             if (i % 2 == 0) {
@@ -57,8 +63,18 @@
             var button = document.createElement('button');
             button.innerHTML = '<button></button>';
             button.innerText = 'Фигуры / Буквы';
+
+            button.onclick = function () {
+                if (blackColor == 0 && whiteColor == 1) {
+                    blackColor = 2;
+                    whiteColor = 2;
+                }
+                else {
+                    blackColor = 0;
+                    whiteColor = 1;
+                }
+            }/*selectToLetter*/;
             square.appendChild(button);
-            button.onclick = selectToLetter;
             square.className += 'squareButton';
         }
         board[0].appendChild(square);
