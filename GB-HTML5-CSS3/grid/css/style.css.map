@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAQI,gDAAiD;ECLrD,GAAI;IAEA,UAAU,EAAE,IAAI",
+"sources": ["_adaptive.scss","style.scss"],
+"names": [],
+"file": "style.css"
+}
