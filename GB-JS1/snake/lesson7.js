@@ -11,6 +11,7 @@ var snake_timer; // Таймер змейки
 var bar_cell = ''; // Ячейка с препятствием
 var bar_timer; // Таймер для препятствий
 var score = 0; // Результат
+var outScore = ''; // Строка с результатом
 
 
 /*var outScore = document.createElement('div');
@@ -21,7 +22,7 @@ outScore.className = 'score';*/
 
 function init() {
     prepareGameField(); // Генерация поля
-    var outScore = document.getElementsByClassName('score')[0]; // Находим блок для выведения счёта
+    outScore = document.getElementsByClassName('score')[0]; // Находим блок для выведения счёта
     console.log(outScore);
     outScore.innerHTML = 'Набрано очков: ' + score; //Изначальное количество очков
     var wrap = document.getElementsByClassName('wrap')[0];
@@ -75,8 +76,8 @@ function prepareGameField() {
  * Старт игры
  */
 function startGame() {
-    var outScore = document.getElementsByClassName('score')[0]; // Находим блок для выведения счёта
-    console.log(outScore);
+    outScore = document.getElementsByClassName('score')[0]; // Находим блок для выведения счёта
+
     gameIsRunning = true;
     respawn();//создали змейку
 
@@ -124,22 +125,35 @@ function move() {
     // Определяем новую точку
     if (direction == 'x-') {
         new_unit = document.getElementsByClassName('cell-' + (coord_y) + '-' + (coord_x - 1))[0];
+        if (new_unit == undefined) {
+            new_unit = document.getElementsByClassName('cell-' + (coord_y) + '-' + (FIELD_SIZE_Y - 1))[0];
+            console.log(new_unit);
+        }
     }
     else if (direction == 'x+') {
         new_unit = document.getElementsByClassName('cell-' + (coord_y) + '-' + (coord_x + 1))[0];
+        if (new_unit == undefined) {
+            new_unit = document.getElementsByClassName('cell-' + (coord_y) + '-' + 0)[0];
+        }
     }
     else if (direction == 'y+') {
         new_unit = document.getElementsByClassName('cell-' + (coord_y - 1) + '-' + (coord_x))[0];
+        if (new_unit == undefined) {
+            new_unit = document.getElementsByClassName('cell-' + (FIELD_SIZE_Y - 1) + '-' + (coord_x))[0];
+        }
     }
     else if (direction == 'y-') {
         new_unit = document.getElementsByClassName('cell-' + (coord_y + 1) + '-' + (coord_x))[0];
+        if (new_unit == undefined) {
+            new_unit = document.getElementsByClassName('cell-' + 0 + '-' + (coord_x))[0];
+        }
     }
 
     // Проверки
     // 1) new_unit не часть змейки
-    // 2) Змейка не ушла за границу поля
+    // 2) Змейка не попала на препятствие
     //console.log(new_unit);
-    if (!isSnakeUnit(new_unit) && new_unit !== undefined && !isBarCell(new_unit)) {
+    if (!isSnakeUnit(new_unit) && !isBarCell(new_unit)) {
         // Добавление новой части змейки
         new_unit.setAttribute('class', new_unit.getAttribute('class') + ' snake-unit');
         snake.push(new_unit);
@@ -180,8 +194,9 @@ function isSnakeUnit(unit) {
  */
 function isBarCell(unit) {
     var check = false;
-    bar_cell = document.getElementsByClassName('bar-unit')
+    bar_cell = document.getElementsByClassName('bar-unit')[0];
 
+    // если препятствие
     if (unit === bar_cell) {
         check = true;
     }
