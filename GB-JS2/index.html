@@ -1,10 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+	<meta charset="UTF-8">
+	<title>Document</title>
 </head>
 <body>
+	
+<script>
+	function User(name, email, age) {
+		this.name = name;
+		this.email = email;
+		this.getAge = function () {
+			return `Возраст: ${age}`;
+		};
+		this.setAge = function (newAge) {
+			if (newAge >= 0) {
+				age = newAge;
+			} else {
+				console.error('Возраст не может быть отрицательным');
+			}
+		}
+	}
 
+	var andrew = new User('Андрей', 'test@mail.ru', 22);
+	var ivan = new User('Иван', 'ivan@mail.ru', 24);
+
+	console.log(ivan.getAge());
+	ivan.setAge(10);
+	console.log(ivan.getAge());
+	ivan.setAge(-5);
+	console.log(ivan.getAge());
+</script>
 </body>
 </html>
