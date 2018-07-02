@@ -24,7 +24,7 @@ function CoffeMachine(power) {
 	var waterAmount = 0;
 	var waterCapacity = 4200;
 	var temp = 90;
-    var time;
+    var timer;
 
 	this.checkWater = function() {
 		return waterAmount;
@@ -48,13 +48,13 @@ function CoffeMachine(power) {
 	        return console.log('Воды нет совсем. Долейте воды.');
 		}
 
-		time = setTimeout(function() {
+		timer = setTimeout(function() {
 			console.log('Ваш кофе готов!');
 		}, this.getBoilTime());
 	}
 
 	this.stop = function () {
-        clearTimeout(time);
+        clearTimeout(timer);
         return console.log('Кофеварка остановлена');
     }
 }
