@@ -93,7 +93,7 @@
     let userId = document.querySelector('#userId');
     const showUserList = document.querySelector('#showUserList');
     const userList = document.querySelector('#userList');
-    let arrUser = [];
+    let arrUser;
 
     const getUser = () => {
         const xhr = new XMLHttpRequest();
@@ -116,7 +116,7 @@
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 getUserList();
-                userId.value = arrUser.length;
+                userId.value = arrUser.length+1;
                 getUser();
             }
         };
@@ -131,26 +131,30 @@
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 arrUser = JSON.parse(xhr.responseText);
-                console.log(arrUser);
+                createUserList();
             }
         };
     };
 
     function createUserList() {
-        getUserList();
         let i = 0;
         let li;
         do {
             let currentUser = arrUser[i];
             li = document.createElement('li');
             li.className = "list-group-item";
-            li.innerHTML = currentUser/*`<p>Имя: ${currentUser.name}</p><p>Email: ${currentUser.email}</p><p>Возраст: ${currentUser.age}</p>`*/;
+            if(typeof(currentUser) === 'object') {
+                li.innerHTML = `<p>Имя: ${currentUser.name}</p><p>Email: ${currentUser.email}</p><p>Возраст: ${currentUser.age}</p>`;
+            }
+            else {
+                li.innerHTML = currentUser;
+            }
             userList.appendChild(li);
             i++;
-        } while (i < arrUser.length)
+        } while (i < arrUser.length);
     }
 
-    showUserList.addEventListener('click', createUserList)
+    showUserList.addEventListener('click', getUserList)
 
 
 </script>
