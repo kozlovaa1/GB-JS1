@@ -95,6 +95,7 @@
     const userList = document.querySelector('#userList');
     let arrUser;
 
+    // Получаем пользователя по id
     const getUser = () => {
         const xhr = new XMLHttpRequest();
         xhr.open('GET', `${baseURL}/user/${userId.value}`, true);
@@ -107,8 +108,9 @@
         };
     };
 
-    submitUserId.addEventListener('click', getUser);
+    submitUserId.addEventListener('click', getUser); //Передача id пользователя из формы
 
+    // Добавляем пользователя
     const addUser = () => {
         const xhr = new XMLHttpRequest();
         xhr.open('POST', `${baseURL}/user/`, true);
@@ -122,8 +124,9 @@
         };
     };
 
-    submitUser.addEventListener('click', addUser);
+    submitUser.addEventListener('click', addUser); // Передача данных нового пользователя из формы
 
+    // Получаем список пользователей
     const getUserList = () => {
         const xhr = new XMLHttpRequest();
         xhr.open('GET', `${baseURL}/user/`, true);
@@ -136,6 +139,7 @@
         };
     };
 
+    // Выводим список пользователей
     function createUserList() {
         let i = 0;
         let li;
@@ -154,9 +158,7 @@
         } while (i < arrUser.length);
     }
 
-    showUserList.addEventListener('click', getUserList)
-
-
+    showUserList.addEventListener('click', getUserList); // Запуск передачи списка пользователей
 </script>
 </body>
 </html>
