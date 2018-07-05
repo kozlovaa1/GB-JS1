@@ -6,7 +6,8 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>ДЗ 2. Работа с пользователями через AJAX</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+          integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
 </head>
 <body>
 <div class="container">
@@ -23,6 +24,11 @@
         <h2>Пользователь</h2>
         <div class="alert alert-primary" id="current-user" role="alert"></div>
         <div class="form-group">
+            <label for="userId">ID пользователя</label>
+            <input type="number" class="form-control" id="userId">
+        </div>
+        <button class="btn btn-primary" id="submitUserId">Найти пользователя</button>
+        <div class="form-group">
             <label for="userName">Имя пользователя</label>
             <input type="text" class="form-control" id="userName">
             <label for="userEmail">Email</label>
@@ -34,13 +40,13 @@
     </div>
     <div>
         <h2>Список пользователей</h2>
-        <ul>
-            <li></li>
+        <button class="btn btn-light" id="showUserList">Показать пользователей</button>
+        <ul class="list-group list-group-flush" id="userList">
         </ul>
     </div>
 </div>
 <script>
-    let baseURL = 'http://89.108.65.123';
+    const baseURL = 'http://89.108.65.123';
 
     /**
      * AJAX-обработка сообщения
@@ -73,52 +79,80 @@
         };
     };
 
-    const obj = {
-        foo: 'bar',
-        test: 'data',
-        testArr: [1, 2, 3],
-    };
-    const myData = JSON.stringify(obj);
-    console.log(JSON.parse(myData));
-
     submit.addEventListener('click', sendMessage);
 
     /**
      * Работа с пользователями
      */
-    baseURL = 'users.json';
-    const currentUser = document.querySelector('#current-user');
+    let currentUser = document.querySelector('#current-user');
     const newUserName = document.querySelector('#userName');
     const newUserEmail = document.querySelector('#userEmail');
     const newUserAge = document.querySelector('#userAge');
+    const submitUserId = document.querySelector('#submitUserId');
     const submitUser = document.querySelector('#sendUser');
+    let userId = document.querySelector('#userId');
+    const showUserList = document.querySelector('#showUserList');
+    const userList = document.querySelector('#userList');
+    let arrUser = [];
 
     const getUser = () => {
         const xhr = new XMLHttpRequest();
-        xhr.open('GET', `${baseURL}`, true);
+        xhr.open('GET', `${baseURL}/user/${userId.value}`, true);
         xhr.send();
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4 && xhr.status === 200) {
-                currentUser.innerHTML = xhr.responseText;
-                console.log(xhr.responseText);
-                console.log('testtest!! ')
+                let objUser = JSON.parse(xhr.responseText);
+                currentUser.innerHTML = `<p>${objUser.name}</p><p>${objUser.email}</p><p>${objUser.age}</p>`;
             }
         };
     };
-    getUser(0);
+
+    submitUserId.addEventListener('click', getUser);
 
     const addUser = () => {
         const xhr = new XMLHttpRequest();
-        xhr.open('POST', `${baseURL}`, true);
-        xhr.send({name: newUserName.value, email: newUserEmail.value, age: newUserAge.value});
+        xhr.open('POST', `${baseURL}/user/`, true);
+        xhr.send(JSON.stringify({"name": newUserName.value, "email": newUserEmail.value, "age": newUserAge.value}));
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4 && xhr.status === 200) {
+                getUserList();
+                userId.value = arrUser.length;
                 getUser();
             }
         };
     };
 
     submitUser.addEventListener('click', addUser);
+
+    const getUserList = () => {
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', `${baseURL}/user/`, true);
+        xhr.send();
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                arrUser = JSON.parse(xhr.responseText);
+                console.log(arrUser);
+            }
+        };
+    };
+
+    function createUserList() {
+        getUserList();
+        let i = 0;
+        let li;
+        do {
+            let currentUser = arrUser[i];
+            li = document.createElement('li');
+            li.className = "list-group-item";
+            li.innerHTML = currentUser/*`<p>Имя: ${currentUser.name}</p><p>Email: ${currentUser.email}</p><p>Возраст: ${currentUser.age}</p>`*/;
+            userList.appendChild(li);
+            i++;
+        } while (i < arrUser.length)
+    }
+
+    showUserList.addEventListener('click', createUserList)
+
+
 </script>
 </body>
 </html>
