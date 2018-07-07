@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>ДЗ 3. Регулярные выражения</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+          integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+</head>
+<body>
+<div class="container">
+    <div>
+        <h2>Текст с кавычками</h2>
+        <div class="form-group">
+            <label for="textSingleQuotes">Текст</label>
+            <textarea name="text" class="form-control" id="textSingleQuotes"></textarea>
+        </div>
+        <button class="btn btn-primary" id="send">Заменить ' на "</button>
+        <button class="btn btn-primary" id="sendWithException">Заменить ' на ", исключая конструкции типа aren't</button>
+        <div class="alert alert-primary" id="textDoubleQuotes" role="alert"></div>
+    </div>
+    <div>
+        <h2>Форма с валидацией</h2>
+        <div class="form-group">
+            <label for="userName">Имя пользователя</label>
+            <input type="text" class="form-control" id="userName">
+            <label for="userPhone">Имя пользователя</label>
+            <input type="phone" class="form-control" id="userPhone">
+            <label for="userEmail">Email</label>
+            <input type="email" class="form-control" id="userEmail">
+            <label for="text">Текст</label>
+            <textarea name="text" class="form-control" id="text"></textarea>
+        </div>
+        <div class="alert alert-danger" id="validateErrors" role="alert" style="display: none;"></div>
+        <button class="btn btn-primary" id="sendForm">Отправить</button>
+    </div>
+</div>
+<script>
+/*  1. У вас есть большой текст, в котором для обозначения диалогов используются одинарные
+    кавычки. Придумать шаблон, который меняет одинарные кавычки на двойные.*/
+const textSingleQuotes = document.querySelector('#textSingleQuotes');
+const submit = document.querySelector('#send');
+const submitException = document.querySelector('#sendWithException');
+const textResultBlock = document.querySelector('#textDoubleQuotes');
+
+function replaceQuotes() {
+    let textDoubleQuotes = (textSingleQuotes.value.replace(/'/g, "\""));
+    console.log(textDoubleQuotes);
+    textResultBlock.innerHTML = textDoubleQuotes;
+}
+
+submit.addEventListener('click', replaceQuotes);
+/*  2. Улучшить шаблон таким образом, чтобы конструкции типа aren’t не меняли одинарную
+кавычку на двойную.*/
+function replaceQuotesWithException() {
+    let textDoubleQuotes = (textSingleQuotes.value.replace(/(\W)(')|(')(\W)/g, "\""));
+    console.log(textDoubleQuotes);
+    textResultBlock.innerHTML = textDoubleQuotes;
+}
+
+submitException.addEventListener('click', replaceQuotesWithException);
+/*  3. Создать форму обратной связи с полями: Имя, Телефон, e-mail, текст, кнопка «Отправить».
+    При нажатии на кнопку «Отправить» произвести валидацию полей следующим образом:
+    a. Имя содержит только буквы;
+    b. Телефон подчиняется шаблону +7(000)000-0000;
+    c. E-mail выглядит как mymail@mail.ru, или my.mail@mail.ru, или my-mail@mail.ru
+    d. Текст произвольный;
+    e. В случае не прохождения валидации одним из полей необходимо выделять это поле
+    красной рамкой и сообщать пользователю об ошибке.*/
+
+const userName = document.querySelector('#userName');
+const userPhone = document.querySelector('#userPhone');
+const userEmail = document.querySelector('#userEmail');
+const text = document.querySelector('#text');
+const validateErrorsBlock = document.querySelector('#validateErrors');
+const submitForm = document.querySelector('#sendForm');
+
+function validateForm() {
+    function writeValidateError(error) {
+        validateErrorsBlock.innerHTML += `<p>${error}</p>`;
+        validateErrorsBlock.style.display = 'block';
+    }
+
+    /* Проверяем Имя */
+    let pcre = /^[а-яА-Я]$/;
+    if (!pcre.test(userName.value)) {
+        writeValidateError(error);
+    }
+}
+
+submitForm.addEventListener('click', validateForm);
+
+</script>
+</body>
+</html>
