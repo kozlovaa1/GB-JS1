@@ -18,7 +18,8 @@
             <textarea name="text" class="form-control" id="textSingleQuotes"></textarea>
         </div>
         <button class="btn btn-primary" id="send">Заменить ' на "</button>
-        <button class="btn btn-primary" id="sendWithException">Заменить ' на ", исключая конструкции типа aren't</button>
+        <button class="btn btn-primary" id="sendWithException">Заменить ' на ", исключая конструкции типа aren't
+        </button>
         <div class="alert alert-primary" id="textDoubleQuotes" role="alert"></div>
     </div>
     <div>
@@ -26,71 +27,97 @@
         <div class="form-group">
             <label for="userName">Имя пользователя</label>
             <input type="text" class="form-control" id="userName">
-            <label for="userPhone">Имя пользователя</label>
-            <input type="phone" class="form-control" id="userPhone">
+            <div class="invalid-feedback"></div>
+            <label for="userPhone">Телефон</label>
+            <input type="phone" class="form-control" id="userPhone" placeholder="+7(000)000-0000">
+            <div class="invalid-feedback"></div>
             <label for="userEmail">Email</label>
-            <input type="email" class="form-control" id="userEmail">
+            <input type="email" class="form-control" id="userEmail" placeholder="mymail@mail.ru">
+            <div class="invalid-feedback"></div>
             <label for="text">Текст</label>
             <textarea name="text" class="form-control" id="text"></textarea>
         </div>
-        <div class="alert alert-danger" id="validateErrors" role="alert" style="display: none;"></div>
         <button class="btn btn-primary" id="sendForm">Отправить</button>
     </div>
 </div>
 <script>
-/*  1. У вас есть большой текст, в котором для обозначения диалогов используются одинарные
-    кавычки. Придумать шаблон, который меняет одинарные кавычки на двойные.*/
-const textSingleQuotes = document.querySelector('#textSingleQuotes');
-const submit = document.querySelector('#send');
-const submitException = document.querySelector('#sendWithException');
-const textResultBlock = document.querySelector('#textDoubleQuotes');
+    /*  1. У вас есть большой текст, в котором для обозначения диалогов используются одинарные
+        кавычки. Придумать шаблон, который меняет одинарные кавычки на двойные.*/
+    const textSingleQuotes = document.querySelector('#textSingleQuotes');
+    const submit = document.querySelector('#send');
+    const submitException = document.querySelector('#sendWithException');
+    const textResultBlock = document.querySelector('#textDoubleQuotes');
 
-function replaceQuotes() {
-    let textDoubleQuotes = (textSingleQuotes.value.replace(/'/g, "\""));
-    console.log(textDoubleQuotes);
-    textResultBlock.innerHTML = textDoubleQuotes;
-}
-
-submit.addEventListener('click', replaceQuotes);
-/*  2. Улучшить шаблон таким образом, чтобы конструкции типа aren’t не меняли одинарную
-кавычку на двойную.*/
-function replaceQuotesWithException() {
-    let textDoubleQuotes = (textSingleQuotes.value.replace(/(\W)(')|(')(\W)/g, "\""));
-    console.log(textDoubleQuotes);
-    textResultBlock.innerHTML = textDoubleQuotes;
-}
-
-submitException.addEventListener('click', replaceQuotesWithException);
-/*  3. Создать форму обратной связи с полями: Имя, Телефон, e-mail, текст, кнопка «Отправить».
-    При нажатии на кнопку «Отправить» произвести валидацию полей следующим образом:
-    a. Имя содержит только буквы;
-    b. Телефон подчиняется шаблону +7(000)000-0000;
-    c. E-mail выглядит как mymail@mail.ru, или my.mail@mail.ru, или my-mail@mail.ru
-    d. Текст произвольный;
-    e. В случае не прохождения валидации одним из полей необходимо выделять это поле
-    красной рамкой и сообщать пользователю об ошибке.*/
-
-const userName = document.querySelector('#userName');
-const userPhone = document.querySelector('#userPhone');
-const userEmail = document.querySelector('#userEmail');
-const text = document.querySelector('#text');
-const validateErrorsBlock = document.querySelector('#validateErrors');
-const submitForm = document.querySelector('#sendForm');
-
-function validateForm() {
-    function writeValidateError(error) {
-        validateErrorsBlock.innerHTML += `<p>${error}</p>`;
-        validateErrorsBlock.style.display = 'block';
+    function replaceQuotes() {
+        let textDoubleQuotes = (textSingleQuotes.value.replace(/'/gm, "\""));
+        console.log(textDoubleQuotes);
+        textResultBlock.innerHTML = textDoubleQuotes;
     }
 
-    /* Проверяем Имя */
-    let pcre = /^[а-яА-Я]$/;
-    if (!pcre.test(userName.value)) {
-        writeValidateError(error);
-    }
-}
+    submit.addEventListener('click', replaceQuotes);
 
-submitForm.addEventListener('click', validateForm);
+    /*  2. Улучшить шаблон таким образом, чтобы конструкции типа aren’t не меняли одинарную
+    кавычку на двойную.*/
+    function replaceQuotesWithException() {
+        let textDoubleQuotes = textSingleQuotes.value.replace(/(\b'\b)|'/g, (p0, p1) => p1 ? "'" : "\"");
+        console.log(textDoubleQuotes);
+        textResultBlock.innerHTML = textDoubleQuotes;
+    }
+
+    submitException.addEventListener('click', replaceQuotesWithException);
+
+    /*  3. Создать форму обратной связи с полями: Имя, Телефон, e-mail, текст, кнопка «Отправить».
+        При нажатии на кнопку «Отправить» произвести валидацию полей следующим образом:
+        a. Имя содержит только буквы;
+        b. Телефон подчиняется шаблону +7(000)000-0000;
+        c. E-mail выглядит как mymail@mail.ru, или my.mail@mail.ru, или my-mail@mail.ru
+        d. Текст произвольный;
+        e. В случае не прохождения валидации одним из полей необходимо выделять это поле
+        красной рамкой и сообщать пользователю об ошибке.*/
+
+    const userName = document.querySelector('#userName'); //Поле Имя
+    const userPhone = document.querySelector('#userPhone'); //Поле Телефон
+    const userEmail = document.querySelector('#userEmail'); // Поле Email
+    const submitForm = document.querySelector('#sendForm'); // Кнопка отправки формы
+
+    /**
+     * Проверка полей формы
+     */
+    function validateForm() {
+        let pcre; //Сюда записываем регулярное выражение для проверки
+        let error = ''; //Текст ошибки
+
+        /**
+         * Вывод ошибки
+         */
+        function writeValidateError(error, block) {
+            block.nextElementSibling.innerHTML = error;
+            block.className += ' is-invalid';
+        }
+
+        // Проверяем Имя
+        pcre = /^[A-Za-z\u0430-\u044F\u0410-\u042F\s]+$/;
+        if (!pcre.test(userName.value)) {
+            error = 'Имя может содержать только буквы и пробелы';
+            writeValidateError(error, userName);
+        }
+
+        //Проверяем телефон
+        pcre = /^\+[0-9]\([0-9]{3}\)[0-9]{3}-[0-9]{4}$/;
+        if (!pcre.test(userPhone.value)) {
+            error = 'Телефон должен быть формата +7(000)000-0000';
+            writeValidateError(error, userPhone);
+        }
+
+        //Проверяем email
+        pcre = /^[A-Za-z0-9\u0430-\u044F\u0410-\u042F.-]+@([A-Za-z0-9\u0430-\u044F\u0410-\u042F]{1,2}|[A-Za-z0-9\u0430-\u044F\u0410-\u042F]((?!(\.\.))[A-Za-z0-9\u0430-\u044F\u0410-\u042F.-])+[A-Za-z0-9\u0430-\u044F\u0410-\u042F])\.[A-Za-z\u0430-\u044F\u0410-\u042F]{2,}$/;
+        if (!pcre.test(userEmail.value)) {
+            error = 'Неправильный формат email';
+            writeValidateError(error, userEmail);
+        }
+    }
+
+    submitForm.addEventListener('click', validateForm); // Запуск проверки по нажатию кнопки Отправить
 
 </script>
 </body>
