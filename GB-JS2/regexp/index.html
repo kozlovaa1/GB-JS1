@@ -79,6 +79,7 @@
     const userPhone = document.querySelector('#userPhone'); //Поле Телефон
     const userEmail = document.querySelector('#userEmail'); // Поле Email
     const submitForm = document.querySelector('#sendForm'); // Кнопка отправки формы
+    const inputFields = document.querySelector('.form-control');
 
     /**
      * Проверка полей формы
@@ -118,7 +119,9 @@
     }
 
     submitForm.addEventListener('click', validateForm); // Запуск проверки по нажатию кнопки Отправить
-
+    inputFields.addEventListener('click', function () {
+        document.querySelector('.invalid-feedback').innerHTML = ''; // Очищаем все тексты предыдущих ошибок
+    });
 </script>
 </body>
 </html>

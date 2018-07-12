@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+          integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+<div class="container">
+    <div>
+        <h2>Табы</h2>
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" href="#home">Tab 1</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#profile">Tab 2</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#contact">Tab 3</a>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">...Tab 1 <br>
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vero, voluptates.
+            </div>
+            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">...Tab 2 <br> Lorem
+                ipsum dolor sit amet, consectetur adipisicing elit. Vero, voluptates.
+            </div>
+            <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">...Tab 3 <br> Lorem
+                ipsum dolor sit amet, consectetur adipisicing elit. Vero, voluptates.
+            </div>
+        </div>
+    </div>
+    <div>
+        <h2>Выбор города</h2>
+        <div class="form-group">
+            <label for="userName">Имя пользователя</label>
+            <input type="text" class="form-control" id="userName">
+            <label for="userEmail">Email</label>
+            <input type="email" class="form-control" id="userEmail">
+            <label for="userAge">Возраст</label>
+            <input type="number" class="form-control" id="userAge">
+            <label for="city">Город</label>
+            <select class="form-control" id="city">
+            </select>
+            <label for="cityComplete">Город с автокомплитом</label>
+            <input type="text" class="form-control" id="cityComplete" value="">
+            <div id="cityBox"></div>
+        </div>
+        <button class="btn btn-primary" id="sendUser">Создать пользователя</button>
+    </div>
+</div>
+<script
+        src="http://code.jquery.com/jquery-3.3.1.js"
+        integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+        crossorigin="anonymous"></script>
+<script>
+    /*1) С помощью jQuery создать контрол, работающий с вкладками.
+        Пример - http://dimox.name/examples/universal-jquery-tabs-script/ .
+    Можно использовать любую анимацию, методы show, hide и подобные. Код примера желательно не смотреть.
+*/
+
+    /*2) В форму обратной связи добавить возможность выбора города обращения. Сам список должен загружаться после загрузки страницы через AJAX.
+    */
+    const $urlCity = 'http://localhost/'; //Сервер, где выводится cities.json
+    $.ajax({
+        url: $urlCity,
+        dataType: "json",
+        success: function (data) {
+            //console.log(data);
+            $(data).each(function (i, val) {
+                let $cityName = $('<option />')
+                $cityName.html(val.city);
+                $('#city').append($cityName);
+            });
+        },
+        error: function (err) {
+            console.error(err);
+        }
+    });
+
+    /*3) * Список из п.2 превратить в текстовое поле-автокомплит. Если пользователь ввёл 3 и более символов, нужно подгрузить список городов и показать подходящие по вводу. При клике на подходящий город, ввести его полное название в текстовое поле.*/
+    $("#cityComplete").on('input', function () {
+        let $inputValue = $(this)[0].value;
+        if ($inputValue.length > 2) {
+            $.ajax({
+                url: $urlCity,
+                dataType: "json",
+                success: function (data) {
+                    $(data).each(function (i, val) {
+                        $match = val.city.indexOf($inputValue);
+                        if ($match !== -1) {
+                            let $cityName = $('<p />');
+                            $cityName.addClass('city');
+                            $cityName.html(val.city);
+                            console.log($cityName);
+                            //$cityName.css("display", "block");
+                            $(this).append($cityName);
+                        }
+                    });
+                },
+                error: function (err) {
+                    console.error(err);
+                }
+            })
+        }
+    });
+
+    $("")
+
+    /**
+     * Добавление пользователя из предыдущего урока
+     */
+    const newUserName = document.querySelector('#userName');
+    const newUserEmail = document.querySelector('#userEmail');
+    const newUserAge = document.querySelector('#userAge');
+    const submitUser = document.querySelector('#sendUser');
+
+    // Добавляем пользователя
+    const addUser = () => {
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', `${baseURL}/user/`, true);
+        xhr.send(JSON.stringify({"name": newUserName.value, "email": newUserEmail.value, "age": newUserAge.value}));
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                console.log('Пользователь создан')
+            }
+        };
+    };
+
+    submitUser.addEventListener('click', addUser); // Передача данных нового пользователя из формы
+</script>
+</body>
+</html>

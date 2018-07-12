@@ -1,0 +1,12 @@
+#cityBox {
+  width: 300px;
+  background: #feffcf;
+  position: absolute;
+  border: 1px solid #000;
+  //display: none;
+
+  & p:hover {
+    background: #a9bfda;
+    cursor: pointer;
+  }
+}

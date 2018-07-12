@@ -10,33 +10,10 @@
 		<ul>
 			<li><a href="./coffeemachine/">ДЗ 1. Кофемашина</a></li>
 			<li><a href="./userajax/">ДЗ 2. Работа с пользователями через AJAX</a></li>
-			<li><a href=""></a></li>
+			<li><a href="./regexp"></a>ДЗ 3. Регулярные выражения</li>
+			<li><a href="./jqueryinterface"></a>ДЗ 4. Интерфейс с использованием jQuery</li>
+			<li><a href="./cart"></a>ДЗ 5. Корзина</li>
 		</ul>
 	</div>
-<script>
-	function User(name, email, age) {
-		this.name = name;
-		this.email = email;
-		this.getAge = function () {
-			return `Возраст: ${age}`;
-		};
-		this.setAge = function (newAge) {
-			if (newAge >= 0) {
-				age = newAge;
-			} else {
-				console.error('Возраст не может быть отрицательным');
-			}
-		}
-	}
-
-	var andrew = new User('Андрей', 'test@mail.ru', 22);
-	var ivan = new User('Иван', 'ivan@mail.ru', 24);
-
-	console.log(ivan.getAge());
-	ivan.setAge(10);
-	console.log(ivan.getAge());
-	ivan.setAge(-5);
-	console.log(ivan.getAge());
-</script>
 </body>
 </html>
