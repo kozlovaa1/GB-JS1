@@ -3,10 +3,14 @@
   background: #feffcf;
   position: absolute;
   border: 1px solid #000;
-  //display: none;
+  display: none;
 
-  & p:hover {
-    background: #a9bfda;
-    cursor: pointer;
+  & .city {
+    margin-bottom: 0;
+
+    &:hover {
+      background: #a9bfda;
+      cursor: pointer;
+    }
   }
 }
