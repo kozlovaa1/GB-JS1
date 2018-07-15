@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ДЗ 4</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+          integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+</head>
+<body>
+<div class="container">
+    <form class="product-form">
+        <div class="form-group">
+            <label for="product">Название продукта</label>
+            <input type="text" name="product" class="form-control" id="product" placeholder="Введите название товара">
+        </div>
+        <div class="form-group">
+            <label for="price">Цена</label>
+            <input type="text" name="price" class="form-control" id="price" placeholder="Введите цену товара">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    <button type="button" class="btn btn-primary" onclick="showCart()">Показать корзину</button>
+    <div class="cart">
+        <div class="row">
+            <div class="productId col-3">ID товара</div>
+            <div class="product col-6">Название товара</div>
+            <div class="price col-3">Цена</div>
+        </div>
+    </div>
+    <form class="comment-form">
+        <div class="form-group">
+            <label for="comment">Комментарий</label>
+            <input type="text" name="product" class="form-control" id="comment" placeholder="Введите текст комментария">
+        </div>
+        <button type="submit" class="btn btn-primary">Отправить комментарий</button>
+    </form>
+</div>
+<script>
+
+    localStorage.setItem('userId', '`${userId}`');
+    localStorage.getItem('userId');
+    localStorage.clear();
+
+
+    const BASE_URL = 'http://89.108.65.123:8080';
+    let userId = null;
+
+    function createCart() {
+        $.ajax({
+            url: BASE_URL + '/shop',
+            success: function (shop) {
+                userId = shop['user_id'];
+                localStorage.setItem('userId', userId);
+                console.log(userId);
+            },
+            error: function (err) {
+                console.error(err);
+            }
+        })
+    }
+
+    function createProduct(productData) {
+        $.ajax({
+            url: BASE_URL + '/shop?user_id=' + productData.user_id + '&product=' +
+                productData.product + '&price=' + productData.price,
+            method: 'POST',
+            success: function (product) {
+                console.log(product)
+            },
+            error: function (err) {
+                console.error(err)
+            }
+        })
+    }
+
+    function showCart(user) {
+        userId = localStorage.getItem('userId');
+        console.log(userId);
+        console.log(localStorage.getItem('userId'));
+        $.ajax({
+            url: BASE_URL + `/shop?user_id=${user}`,
+            success: function (shop) {
+                console.log(shop);
+                $(shop.cart).each(function (i, val) {
+                    let cartRow = $('<div class="row"><div class="productId col-3"></div><div class="product col-6"></div><div class="price col-3"></div></div>');
+                    $('.cart').append(cartRow);
+                    $('.productId').html(val.product_id);
+                    $('.product').html(val.product);
+                    $('.price').html(val.price);
+                })
+            },
+            error: function (err) {
+                console.error(err);
+            }
+        })
+    }
+
+    function removeProduct() {
+        $.ajax({
+            url: BASE_URL + `/shop?user_id=${userId}&product_id=${productId}`,
+            method: 'DELETE',
+            success: function (shop) {
+                console.log(shop);
+            },
+            error: function (err) {
+                console.error(err);
+            }
+        })
+
+    }
+
+    $('.product-form').on('submit', function (event) {
+        event.preventDefault();
+        var $this = $(this);
+        var productData = {
+            user_id: userId,
+            product: $this.find('#product').val(),
+            price: $this.find('#price').val(),
+        };
+        createProduct(productData);
+    });
+    createCart();
+
+    // Модуль комментариев
+    function addComent(text) {
+        $.ajax({
+            url: BASE_URL + '/comments?text=' + text,
+            method: 'POST',
+            success: function (comment) {
+                console.log(comment)
+            },
+            error: function (err) {
+                console.error(err)
+            }
+        })
+    }
+
+    function getComments() {
+        $.ajax({
+            url: BASE_URL + '/comments',
+            success: function (comment) {
+                $(shop.cart).each(function (i, val) {
+                    /*let cartRow = $('<div class="row"><div class="productId col-3"></div><div class="product col-6"></div><div class="price col-3"></div></div>');
+                    $('.cart').append(cartRow);
+                    $('.productId').html(val.product_id);
+                    $('.product').html(val.product);
+                    $('.price').html(val.price);*/
+                })
+            },
+            error: function (err) {
+                console.error(err)
+            }
+        })
+    }
+
+    function addLike(commentId) {
+        $.ajax({
+            url: BASE_URL + '/comments?comment_id=' + commentId,
+            method: 'PATCH',
+            success: function (comment) {
+                console.log(comment)
+            },
+            error: function (err) {
+                console.error(err)
+            }
+        })
+    }
+
+    function removeComment(commentId) {
+        $.ajax({
+            url: BASE_URL + '/comments?comment_id=' + commentId,
+            method: 'DELETE',
+            success: function (comment) {
+                console.log(comment)
+            },
+            error: function (err) {
+                console.error(err)
+            }
+        })
+    }
+</script>
+</body>
+</html>
