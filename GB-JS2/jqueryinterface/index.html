@@ -65,7 +65,8 @@
     $tab = $('.nav-link');
     $tabPane = $('.tab-pane');
 
-    $tab.click(function () {
+    $tab.click(function (event) {
+        event.preventDefault();
         $tab.removeClass('active');
         $tabPane.removeClass('show').removeClass('active');
         $(this).addClass('active');
