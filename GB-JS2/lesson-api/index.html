@@ -5,11 +5,13 @@
     <title>ДЗ 4</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
           integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
 </head>
 <body>
 <div class="container">
+    <button type="button" class="btn btn-primary" id="resetUser">Сбросить пользователя</button>
     <form class="product-form">
         <div class="form-group">
             <label for="product">Название продукта</label>
@@ -21,27 +23,30 @@
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
+    <hr>
     <button type="button" class="btn btn-primary" onclick="showCart()">Показать корзину</button>
     <div class="cart">
-        <div class="row">
-            <div class="productId col-3">ID товара</div>
-            <div class="product col-6">Название товара</div>
-            <div class="price col-3">Цена</div>
-        </div>
     </div>
+    <hr>
     <form class="comment-form">
         <div class="form-group">
             <label for="comment">Комментарий</label>
-            <input type="text" name="product" class="form-control" id="comment" placeholder="Введите текст комментария">
+            <textarea name="comment" class="form-control" id="comment" placeholder="Введите текст комментария"></textarea>
         </div>
         <button type="submit" class="btn btn-primary">Отправить комментарий</button>
     </form>
+    <hr>
+    <button type="button" class="btn btn-primary" onclick="getComments()">Показать комментарии</button>
+    <div class="comments"></div>
 </div>
 <script>
 
-    localStorage.setItem('userId', '`${userId}`');
-    localStorage.getItem('userId');
-    localStorage.clear();
+    //localStorage.setItem('userId', '`${userId}`');
+
+    $('#resetUser').click(function () {
+        localStorage.removeItem('userId')
+    });
+    console.log(localStorage.getItem('userId'));
 
 
     const BASE_URL = 'http://89.108.65.123:8080';
@@ -51,9 +56,12 @@
         $.ajax({
             url: BASE_URL + '/shop',
             success: function (shop) {
-                userId = shop['user_id'];
-                localStorage.setItem('userId', userId);
-                console.log(userId);
+                let user = shop['user_id'];
+                userId = localStorage.getItem('userId');
+                if (!(userId && confirm(`Использовать корзину пользователя ${userId}?`))) {
+                    localStorage.setItem('userId', `${user}`);
+                }
+                userId = localStorage.getItem('userId');
             },
             error: function (err) {
                 console.error(err);
@@ -68,28 +76,39 @@
             method: 'POST',
             success: function (product) {
                 console.log(product)
+                showCart();
             },
             error: function (err) {
                 console.error(err)
             }
         })
+
     }
 
-    function showCart(user) {
-        userId = localStorage.getItem('userId');
-        console.log(userId);
-        console.log(localStorage.getItem('userId'));
+    function showCart() {
+        $('.cart').html(''); //Очищаем html корзины
+        $('.cart').html(
+            `<div class="row">
+                <div class="productId col-3">ID товара</div>
+                <div class="product col-6">Название товара</div>
+                <div class="price col-3">Цена</div>
+            </div>`
+        );
         $.ajax({
-            url: BASE_URL + `/shop?user_id=${user}`,
+            url: BASE_URL + `/shop?user_id=${userId}`,
             success: function (shop) {
-                console.log(shop);
                 $(shop.cart).each(function (i, val) {
-                    let cartRow = $('<div class="row"><div class="productId col-3"></div><div class="product col-6"></div><div class="price col-3"></div></div>');
+                    let cartRow = $(
+                        `<div class="row productRow">
+                            <div class="productId col-3">${val.product_id}</div>
+                            <div class="product col-6">${val.product}</div>
+                            <div class="price col-2">${val.price}</div>
+                            <a href="#" data-product="${val.product_id}" class="col-1 removeProduct" title="Удалить товар из корзины">x</a>
+                        </div>`
+                    );
                     $('.cart').append(cartRow);
-                    $('.productId').html(val.product_id);
-                    $('.product').html(val.product);
-                    $('.price').html(val.price);
                 })
+                $('.removeProduct').click(removeProduct);
             },
             error: function (err) {
                 console.error(err);
@@ -98,38 +117,41 @@
     }
 
     function removeProduct() {
+        let productId = $(this).attr('data-product');
         $.ajax({
             url: BASE_URL + `/shop?user_id=${userId}&product_id=${productId}`,
             method: 'DELETE',
             success: function (shop) {
                 console.log(shop);
+                showCart(userId);
             },
             error: function (err) {
                 console.error(err);
             }
         })
-
     }
+
+    createCart();
 
     $('.product-form').on('submit', function (event) {
         event.preventDefault();
-        var $this = $(this);
-        var productData = {
+        let $this = $(this);
+        let productData = {
             user_id: userId,
             product: $this.find('#product').val(),
             price: $this.find('#price').val(),
         };
         createProduct(productData);
     });
-    createCart();
 
     // Модуль комментариев
-    function addComent(text) {
+    function addComment(text) {
         $.ajax({
             url: BASE_URL + '/comments?text=' + text,
             method: 'POST',
             success: function (comment) {
-                console.log(comment)
+                console.log(comment);
+                getComments();
             },
             error: function (err) {
                 console.error(err)
@@ -137,17 +159,30 @@
         })
     }
 
+    // Получение всех комментариев
     function getComments() {
+        $('.comments').html(''); //Очистка html списка комментариев
         $.ajax({
             url: BASE_URL + '/comments',
             success: function (comment) {
-                $(shop.cart).each(function (i, val) {
-                    /*let cartRow = $('<div class="row"><div class="productId col-3"></div><div class="product col-6"></div><div class="price col-3"></div></div>');
-                    $('.cart').append(cartRow);
-                    $('.productId').html(val.product_id);
-                    $('.product').html(val.product);
-                    $('.price').html(val.price);*/
+                $(comment).each(function (i, val) {
+                    let commentRow = $(
+                        `<div class="row">
+                            <div class="commentId col-2">${val.comment_id}</div>
+                            <div class="text col-8">${val.text}</div>
+                            <div data-comment="${val.comment_id}" class="likes col-1 row">
+                                <div class="like_button_icon"></div>
+                                <div class="like_value">${val.likes}</div>
+                            </div>
+                            <div class="col-1">
+                                <a href="#" data-comment="${val.comment_id}" class="removeComment" title="Удалить комментарий">x</a>
+                            </div>
+                        </div>`
+                    );
+                    $('.comments').append(commentRow);
                 })
+                $('.likes').click(addLike);
+                $('.removeComment').click(removeComment);
             },
             error: function (err) {
                 console.error(err)
@@ -155,12 +190,16 @@
         })
     }
 
-    function addLike(commentId) {
+    // Добавление лайка
+    function addLike() {
+        let commentId = $(this).attr('data-comment');
+        console.log(commentId);
         $.ajax({
             url: BASE_URL + '/comments?comment_id=' + commentId,
             method: 'PATCH',
             success: function (comment) {
-                console.log(comment)
+                console.log(comment);
+                getComments();
             },
             error: function (err) {
                 console.error(err)
@@ -168,18 +207,28 @@
         })
     }
 
-    function removeComment(commentId) {
+    // Удаление комментария
+    function removeComment() {
+        let commentId = $(this).attr('data-comment');
         $.ajax({
             url: BASE_URL + '/comments?comment_id=' + commentId,
             method: 'DELETE',
             success: function (comment) {
-                console.log(comment)
+                console.log(comment);
+                getComments();
             },
             error: function (err) {
                 console.error(err)
             }
         })
     }
+
+    $('.comment-form').on('submit', function (event) {
+        event.preventDefault();
+        let $this = $(this);
+        let commentData = $(this).find('#comment').val();
+        addComment(commentData);
+    });
 </script>
 </body>
 </html>
