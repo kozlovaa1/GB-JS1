@@ -96,9 +96,10 @@
     $cityBox = $('#cityBox'); //Блок с подсказками
     $cityComplete = $("#cityComplete"); //Инпут города с подсказкой
     // Запрос и создание списка подсказок
-    $cityComplete.on('input', function () {
-        let $inputValue = $(this)[0].value;
+    $cityComplete.on('input', getCity);
 
+    function getCity() {
+        let $inputValue = $(this).val();
         $cityBox.html(''); //Очищаем подсказки
         if ($inputValue.length > 2) {
             $.ajax({
@@ -113,11 +114,7 @@
                             $cityName.html(val.city);
                             $cityBox.css("display", "block");
                             $cityBox.append($cityName);
-                            $(".city").click(function () { // Выбор и подстановка из подсказки
-                                let $cityValue = $(this)[0].textContent;
-                                $cityComplete.val($cityValue);
-                                $cityBox.html('');
-                            });
+                            $(".city").click(changeCity);
                         }
                     });
                 },
@@ -126,7 +123,16 @@
                 }
             })
         }
-    });
+    };
+
+    // Выбор и подстановка из подсказки
+    function changeCity() {
+        let $cityValue = $(this).text();
+        console.log($cityValue);
+        $cityComplete.val($cityValue);
+        $cityBox.html('');
+        $cityBox.css("display", "none");
+    };
 
     /**
      * Добавление пользователя из предыдущего урока
