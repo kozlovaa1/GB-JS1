@@ -1,0 +1,12 @@
+@import "_variables";
+@import "_adaptive";
+
+div {
+  @include respondTo(tablets) {
+    background: #ccc;
+  }
+}
+
+
+
+

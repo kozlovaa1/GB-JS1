@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+    <title>ДЗ 6. jQuery UI</title>
+
+    <!--Bootstrap CSS-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+          integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+
+
+    <!--jQuery-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <!--jQuery UI-->
+    <script
+            src="http://code.jquery.com/ui/1.12.1/jquery-ui.js"
+            integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30="
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+    <!--Swiper-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.3.3/css/swiper.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.3.3/js/swiper.js"></script>
+
+    <!--Custom CSS-->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+    <div class="swiper-container">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide">
+                <div><img src="./img/item1.jpg" alt="" class="productImg"></div>
+                <br>
+                <div>Товар 1</div>
+            </div>
+            <div class="swiper-slide">
+                <p><img src="./img/item2.jpg" alt="" class="productImg"></p>
+                <p>Товар 2</p>
+            </div>
+            <div class="swiper-slide">
+                <p><img src="./img/item3.jpg" alt="" class="productImg"></p>
+                <p>Товар 3</p>
+            </div>
+            <div class="swiper-slide">
+                <p><img src="./img/item4.jpg" alt="" class="productImg"></p>
+                <p>Товар 4</p>
+            </div>
+            <div class="swiper-slide">
+                <p><img src="./img/item1.jpg" alt="" class="productImg"></p>
+                <p>Товар 5</p>
+            </div>
+            <div class="swiper-slide">
+                <p><img src="./img/item2.jpg" alt="" class="productImg"></p>
+                <p>Товар 6</p>
+            </div>
+        </div>
+        <!-- Add Pagination -->
+        <div class="swiper-pagination"></div>
+        <!-- Add Arrows -->
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+    </div>
+
+    <div>
+        <h2>Форма с валидацией</h2>
+        <div class="form-group">
+            <label for="userName">Имя пользователя</label>
+            <input type="text" class="form-control" id="userName">
+            <div class="invalid-feedback"></div>
+            <label for="userPhone">Телефон</label>
+            <input type="phone" class="form-control" id="userPhone" placeholder="+7(000)000-0000">
+            <div class="invalid-feedback"></div>
+            <label for="userEmail">Email</label>
+            <input type="email" class="form-control" id="userEmail" placeholder="mymail@mail.ru">
+            <div class="invalid-feedback"></div>
+            <label for="userBirthDate">Дата рождения</label>
+            <input type="text" class="form-control" id="userBirthDate" placeholder="дд.мм.гггг">
+            <div class="invalid-feedback"></div>
+            <label for="text">Текст</label>
+            <textarea name="text" class="form-control" id="text"></textarea>
+        </div>
+        <button class="btn btn-primary" id="sendForm">Отправить</button>
+    </div>
+</div>
+<div class="errorBlock"></div>
+<script>
+    /*1) На сайте в форме обратной связи добавьте следующие поля:
+        a) поле даты рождения;
+        b) ошибочные поля подсветить с помощью какого-нибудь эффекта, например, Bounce.*/
+
+    $("#userBirthDate").datepicker({
+        monthNames: ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь"
+            , "Ноябрь", "Декабрь"],
+        dayNamesMin: ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"],
+        firstDay: 1,
+        dateFormat: "dd.mm.yy",
+        changeYear: true,
+        yearRange: "-100:+00"
+    });
+
+    /*2) Все возвращаемые ошибки выводить с помощью виджета Dialog.*/
+    /**
+     * Вывод ошибки
+     */
+    function writeValidateError(error, block) {
+        block.nextElementSibling.innerHTML = error;
+        block.className += ' is-invalid';
+        $(block).effect("bounce", "slow"); //Добавляем эффект bounce на инпуты
+        $('.errorBlock').html(`${$('.errorBlock').html()}<p>${error}</p>`); //заполняем блок для виджета ошибок
+        $('.errorBlock').dialog({ // Выводим виджет Dialog
+            buttons: [
+                {
+                    text: "OK",
+                    click: function () {
+                        $(this).dialog("close");
+                        $('.errorBlock').html('');
+                    }
+                }
+            ]
+        });
+    }
+
+    /*3) Создать карусель популярных товаров в шапке.*/
+    <!-- Initialize Swiper -->
+    var swiper = new Swiper('.swiper-container', {
+        slidesPerView: 3,
+        spaceBetween: 30,
+        loop: true,
+        centeredSlides: true,
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+    });
+    /*4) * C помощью jQuery UI добавить возможность перемещать товар прямо в корзину мышью.*/
+
+
+    /*Обработка формы из 2 урока*/
+    const userName = document.querySelector('#userName'); //Поле Имя
+    const userPhone = document.querySelector('#userPhone'); //Поле Телефон
+    const userEmail = document.querySelector('#userEmail'); // Поле Email
+    const submitForm = document.querySelector('#sendForm'); // Кнопка отправки формы
+    const inputFields = document.querySelector('.form-control');
+
+    /**
+     * Проверка полей формы
+     */
+    function validateForm() {
+        let pcre; //Сюда записываем регулярное выражение для проверки
+        let error = ''; //Текст ошибки
+
+
+        // Проверяем Имя
+        pcre = /^[A-Za-z\u0430-\u044F\u0410-\u042F\s]+$/;
+        if (!pcre.test(userName.value)) {
+            error = 'Имя может содержать только буквы и пробелы';
+            writeValidateError(error, userName);
+        }
+
+        //Проверяем телефон
+        pcre = /^\+[0-9]\([0-9]{3}\)[0-9]{3}-[0-9]{4}$/;
+        if (!pcre.test(userPhone.value)) {
+            error = 'Телефон должен быть формата +7(000)000-0000';
+            writeValidateError(error, userPhone);
+        }
+
+        //Проверяем email
+        pcre = /^[A-Za-z0-9\u0430-\u044F\u0410-\u042F.-]+@([A-Za-z0-9\u0430-\u044F\u0410-\u042F]{1,2}|[A-Za-z0-9\u0430-\u044F\u0410-\u042F]((?!(\.\.))[A-Za-z0-9\u0430-\u044F\u0410-\u042F.-])+[A-Za-z0-9\u0430-\u044F\u0410-\u042F])\.[A-Za-z\u0430-\u044F\u0410-\u042F]{2,}$/;
+        if (!pcre.test(userEmail.value)) {
+            error = 'Неправильный формат email';
+            writeValidateError(error, userEmail);
+        }
+    }
+
+    submitForm.addEventListener('click', validateForm); // Запуск проверки по нажатию кнопки Отправить
+    inputFields.addEventListener('click', function () {
+        document.querySelector('.invalid-feedback').innerHTML = ''; // Очищаем все тексты предыдущих ошибок
+    });
+</script>
+</body>
+</html>

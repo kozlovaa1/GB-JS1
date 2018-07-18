@@ -8,7 +8,6 @@
 <body>
 <h1>Шахматная доска</h1>
 <div class="container">
-
 </div>
 </body>
 <script>
@@ -22,20 +21,37 @@
         rook: ['&#9814;', '&#9820;', 'Л'],
         pawn: ['&#9817;', '&#9823;', 'П']
     };
-    var j = 0;
+    var piece, j = 0, blackColor = 0, whiteColor = 1;
 
-    for (var i = 0; i < 81; i++) {
+    /*function selectToLetter() {
+        if (blackColor == 0 && whiteColor == 1) {
+            blackColor = 2;
+            whiteColor = 2;
+        }
+        else {
+            blackColor = 0;
+            whiteColor = 1;
+        }
+    }*/
+
+    for (var i = 0; i < 100; i++) {
         var square = document.createElement('div');
-        square.innerHTML = '<div></div>'
+        square.innerHTML = '<div></div>';
 
         if (i < 9 && i > 0) {
-            square.innerText = colLetter[i - 1];
-            square.className = 'letter';
+            var colLetterRev = colLetter.reverse();
+            square.innerText = colLetterRev[i - 1];
+            square.style.transform = 'rotate(180deg)';
+            square.className = 'letter ';
         }
-        else if (i % 9 == 0 && i > 0) {
+        if(i > 90) {
+            square.innerText = colLetter[i - 1];
+            square.className = 'letter ';
+        }
+        else if (i % 10 == 0 && i > 0) {
             j++;
             square.innerText = j;
-            square.className = 'number';
+            square.className = 'number ';
         }
         else if (i > 0) {
             if (i % 2 == 0) {
@@ -43,36 +59,76 @@
             }
             square.className += 'square';
         }
+        else {
+            var button = document.createElement('button');
+            button.innerHTML = '<button></button>';
+            button.innerText = 'Фигуры / Буквы';
+
+            button.onclick = function () {
+                if (blackColor == 0 && whiteColor == 1) {
+                    blackColor = 2;
+                    whiteColor = 2;
+                }
+                else {
+                    blackColor = 0;
+                    whiteColor = 1;
+                }
+            }/*selectToLetter*/;
+            square.appendChild(button);
+            square.className += 'squareButton';
+        }
         board[0].appendChild(square);
     }
-
     var pieceSquare = document.getElementsByClassName("square");
     for (i = 0; i < pieceSquare.length; i++) {
-        pieceSquare[i].innerText = pieces.king[0];
-
+        switch (i) {
+            case 0:
+            case 7:
+                piece = pieces.rook[blackColor];
+                break;
+            case 1:
+            case 6:
+                piece = pieces.knight[blackColor];
+                break;
+            case 2:
+            case 5:
+                piece = pieces.bishop[blackColor];
+                break;
+            case 3:
+                piece = pieces.king[blackColor];
+                break;
+            case 4:
+                piece = pieces.queen[blackColor];
+                break;
+            case 56:
+            case 63:
+                piece = pieces.rook[whiteColor];
+                break;
+            case 57:
+            case 62:
+                piece = pieces.knight[whiteColor];
+                break;
+            case 58:
+            case 61:
+                piece = pieces.bishop[whiteColor];
+                break;
+            case 59:
+                piece = pieces.queen[whiteColor];
+                break;
+            case 60:
+                piece = pieces.king[whiteColor];
+                break;
+            default:
+                piece = '';
+                break;
+        }
+        if (i > 7 && i < 16) {
+            piece = pieces.pawn[blackColor];
+        }
+        if (i > 47 && i < 56) {
+            piece = pieces.pawn[whiteColor];
+        }
+        pieceSquare[i].innerText = piece;
     }
 </script>
-♔ &#9812;
-
-♕ &#9813;
-
-♖ &#9814;
-
-♗ &#9815;
-
-♘ &#9816;
-
-♙ &#9817;
-
-♚ &#9818;
-
-♛ &#9819;
-
-♜ &#9820;
-
-♝ &#9821;
-
-♞ &#9822;
-
-♟ &#9823;
 </html>
