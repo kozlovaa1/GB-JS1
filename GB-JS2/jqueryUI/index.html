@@ -29,32 +29,32 @@
 </head>
 <body>
 <div class="container">
+    <h2>Популярные товары</h2>
     <div class="swiper-container">
         <div class="swiper-wrapper">
             <div class="swiper-slide">
                 <div><img src="./img/item1.jpg" alt="" class="productImg"></div>
-                <br>
                 <div>Товар 1</div>
             </div>
             <div class="swiper-slide">
-                <p><img src="./img/item2.jpg" alt="" class="productImg"></p>
-                <p>Товар 2</p>
+                <div><img src="./img/item2.jpg" alt="" class="productImg"></div>
+                <div>Товар 2</div>
             </div>
             <div class="swiper-slide">
-                <p><img src="./img/item3.jpg" alt="" class="productImg"></p>
-                <p>Товар 3</p>
+                <div><img src="./img/item3.jpg" alt="" class="productImg"></div>
+                <div>Товар 3</div>
             </div>
             <div class="swiper-slide">
-                <p><img src="./img/item4.jpg" alt="" class="productImg"></p>
-                <p>Товар 4</p>
+                <div><img src="./img/item4.jpg" alt="" class="productImg"></div>
+                <div>Товар 4</div>
             </div>
             <div class="swiper-slide">
-                <p><img src="./img/item1.jpg" alt="" class="productImg"></p>
-                <p>Товар 5</p>
+                <div><img src="./img/item1.jpg" alt="" class="productImg"></div>
+                <div>Товар 5</div>
             </div>
             <div class="swiper-slide">
-                <p><img src="./img/item2.jpg" alt="" class="productImg"></p>
-                <p>Товар 6</p>
+                <div><img src="./img/item2.jpg" alt="" class="productImg"></div>
+                <div>Товар 6</div>
             </div>
         </div>
         <!-- Add Pagination -->
@@ -63,6 +63,7 @@
         <div class="swiper-button-next"></div>
         <div class="swiper-button-prev"></div>
     </div>
+    <div class="cart">Перетащите сюда товар, чтобы добавить его в корзину</div>
 
     <div>
         <h2>Форма с валидацией</h2>
@@ -138,9 +139,16 @@
             nextEl: '.swiper-button-next',
             prevEl: '.swiper-button-prev',
         },
+        allowTouchMove: false,
     });
     /*4) * C помощью jQuery UI добавить возможность перемещать товар прямо в корзину мышью.*/
-
+    $(".swiper-slide").draggable();
+    let dropItem = () => {
+        $(".swiper-slide").droppable({
+            accept: ".cart"
+        });
+    }
+    console.log(dropItem);
 
     /*Обработка формы из 2 урока*/
     const userName = document.querySelector('#userName'); //Поле Имя
