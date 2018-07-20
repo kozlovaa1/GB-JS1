@@ -87,6 +87,8 @@
     </div>
 </div>
 <div class="errorBlock"></div>
+
+<div class="moveItem"><span>+</span></div>
 <script>
     /*1) На сайте в форме обратной связи добавьте следующие поля:
         a) поле даты рождения;
@@ -142,13 +144,24 @@
         allowTouchMove: false,
     });
     /*4) * C помощью jQuery UI добавить возможность перемещать товар прямо в корзину мышью.*/
-    $(".swiper-slide").draggable();
-    let dropItem = () => {
-        $(".swiper-slide").droppable({
-            accept: ".cart"
-        });
-    }
-    console.log(dropItem);
+    $(".swiper-slide").draggable({
+        revert: true,
+        //zIndex: 100,
+        stack: '.cart',
+
+    });
+    $(".cart").droppable({
+        accept: ".swiper-slide",
+        over: function () {
+            console.log('навёл');
+        },
+        drop: function () {
+            console.log('сбросил');
+            productData = {}
+            createProduct(productData);
+        }
+    });
+
 
     /*Обработка формы из 2 урока*/
     const userName = document.querySelector('#userName'); //Поле Имя
