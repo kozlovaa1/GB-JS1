@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>ДЗ 2. Работа с пользователями через AJAX</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+          integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+</head>
+<body>
+<div class="container">
+    <div>
+        <h2>Сообщение</h2>
+        <div class="alert alert-primary" id="current-message" role="alert"></div>
+        <div class="form-group">
+            <label for="message">Сообщение</label>
+            <input type="text" class="form-control" id="message">
+        </div>
+        <button class="btn btn-primary" id="send">Отправить</button>
+    </div>
+    <div>
+        <h2>Пользователь</h2>
+        <div class="alert alert-primary" id="current-user" role="alert"></div>
+        <div class="form-group">
+            <label for="userId">ID пользователя</label>
+            <input type="number" class="form-control" id="userId">
+        </div>
+        <button class="btn btn-primary" id="submitUserId">Найти пользователя</button>
+        <div class="form-group">
+            <label for="userName">Имя пользователя</label>
+            <input type="text" class="form-control" id="userName">
+            <label for="userEmail">Email</label>
+            <input type="email" class="form-control" id="userEmail">
+            <label for="userAge">Возраст</label>
+            <input type="number" class="form-control" id="userAge">
+        </div>
+        <button class="btn btn-primary" id="sendUser">Создать пользователя</button>
+    </div>
+    <div>
+        <h2>Список пользователей</h2>
+        <button class="btn btn-light" id="showUserList">Показать пользователей</button>
+        <ul class="list-group list-group-flush" id="userList">
+        </ul>
+    </div>
+</div>
+<script>
+    const baseURL = 'http://89.108.65.123';
+
+    /**
+     * AJAX-обработка сообщения
+     */
+
+    const currentMessage = document.querySelector('#current-message');
+    const newMessage = document.querySelector('#message');
+    const submit = document.querySelector('#send');
+
+    const getMessage = () => {
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', `${baseURL}/getMessage`, true);
+        xhr.send();
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                currentMessage.innerHTML = xhr.responseText;
+            }
+        };
+    };
+    getMessage();
+
+    const sendMessage = () => {
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', `${baseURL}/sendMessage`, true);
+        xhr.send(newMessage.value);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                getMessage();
+            }
+        };
+    };
+
+    submit.addEventListener('click', sendMessage);
+
+    /**
+     * Работа с пользователями
+     */
+    let currentUser = document.querySelector('#current-user');
+    const newUserName = document.querySelector('#userName');
+    const newUserEmail = document.querySelector('#userEmail');
+    const newUserAge = document.querySelector('#userAge');
+    const submitUserId = document.querySelector('#submitUserId');
+    const submitUser = document.querySelector('#sendUser');
+    let userId = document.querySelector('#userId');
+    const showUserList = document.querySelector('#showUserList');
+    const userList = document.querySelector('#userList');
+    let arrUser;
+
+    // Получаем пользователя по id
+    const getUser = () => {
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', `${baseURL}/user/${userId.value}`, true);
+        xhr.send();
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                let objUser = JSON.parse(xhr.responseText);
+                currentUser.innerHTML = `<p>${objUser.name}</p><p>${objUser.email}</p><p>${objUser.age}</p>`;
+            }
+        };
+    };
+
+    submitUserId.addEventListener('click', getUser); //Передача id пользователя из формы
+
+    // Добавляем пользователя
+    const addUser = () => {
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', `${baseURL}/user/`, true);
+        xhr.send(JSON.stringify({"name": newUserName.value, "email": newUserEmail.value, "age": newUserAge.value}));
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                getUserList();
+                userId.value = arrUser.length+1;
+                getUser();
+            }
+        };
+    };
+
+    submitUser.addEventListener('click', addUser); // Передача данных нового пользователя из формы
+
+    // Получаем список пользователей
+    const getUserList = () => {
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', `${baseURL}/user/`, true);
+        xhr.send();
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                arrUser = JSON.parse(xhr.responseText);
+                createUserList();
+            }
+        };
+    };
+
+    // Выводим список пользователей
+    function createUserList() {
+        let i = 0;
+        let li;
+        do {
+            let currentUser = arrUser[i];
+            li = document.createElement('li');
+            li.className = "list-group-item";
+            if(typeof(currentUser) === 'object') {
+                li.innerHTML = `<p>Имя: ${currentUser.name}</p><p>Email: ${currentUser.email}</p><p>Возраст: ${currentUser.age}</p>`;
+            }
+            else {
+                li.innerHTML = currentUser;
+            }
+            userList.appendChild(li);
+            i++;
+        } while (i < arrUser.length);
+    }
+
+    showUserList.addEventListener('click', getUserList); // Запуск передачи списка пользователей
+</script>
+</body>
+</html>

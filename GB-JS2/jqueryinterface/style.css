@@ -1,0 +1,13 @@
+#cityBox {
+  width: 300px;
+  background: #feffcf;
+  position: absolute;
+  border: 1px solid #000;
+  display: none; }
+  #cityBox .city {
+    margin-bottom: 0; }
+    #cityBox .city:hover {
+      background: #a9bfda;
+      cursor: pointer; }
+
+/*# sourceMappingURL=style.css.map */

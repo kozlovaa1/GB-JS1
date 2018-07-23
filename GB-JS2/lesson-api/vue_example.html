@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue.js example</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+</head>
+<body>
+<div class="container" id="app">
+    <form class="product-form" @submit.prevent="createProduct">
+        <div class="form-group">
+            <label for="product">Название продукта</label>
+            <input type="text" name="product" v-model="product" class="form-control" id="product" placeholder="Введите название товара">
+        </div>
+        <div class="form-group">
+            <label for="price">Цена</label>
+            <input type="text" name="price" v-model="price" class="form-control" id="price" placeholder="Введите цену товара">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+    <ul class="list-group" v-for="item in cart">
+        <li class="list-group-item" :key="item.product_id">{{item.product}} - {{item.price}}</li>
+    </ul>
+</div>
+<script>
+new Vue({
+  el: '#app',
+  data: {
+    product: '',
+    price: '',
+    baseURL: 'http://89.108.65.123:8080',
+    userId: null,
+    cart: [],
+  },
+  created() {
+    this.createCart();
+  },
+  methods: {
+    createCart() {
+      fetch(`${this.baseURL}/shop`).then((res) => {
+        return res.json();
+      }).then((cartData) => {
+        this.userId = cartData['user_id'];
+        this.cart = cartData['cart'];
+      }).catch((err) => {
+        console.error(err);
+      });
+    },
+    createProduct() {
+      fetch(`${this.baseURL}/shop?user_id=${this.userId}&product=${this.product}&price=${this.price}`, {
+        method: 'post',
+      }).then((res) => {
+        return res.json();
+      }).then((product) => {
+        this.cart.push(product);
+      }).catch((err) => {
+        console.error(err);
+      });
+    },
+  },
+});
+</script>
+</body>
+</html>
