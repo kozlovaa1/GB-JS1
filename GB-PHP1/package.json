@@ -1,0 +1,11 @@
+{
+  "name": "gb-php1",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "console.log('test')"
+  },
+  "author": "",
+  "license": "ISC"
+}
