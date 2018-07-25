@@ -1,13 +1,13 @@
-// mocha.setup('bdd');
-// let assert = chai.assert;
-// mocha.run();
-
 describe('Создание корзины', () => {
-    /*let cartResult;
+    let cartResult;
     before(async () => {
-        cartResult = await createCart().then(res = res.json);
-    });*/
+        cartResult = await createProduct({
+            user_id: 'test',
+            product: 'test',
+            price: 'test',
+        })
+    });
     it('корзина для текущего пользователя создана', () => {
-        assert.isDefined(11);
+        assert.isDefined(cartResult);
     })
 })
