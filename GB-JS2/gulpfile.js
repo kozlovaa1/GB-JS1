@@ -5,11 +5,7 @@ var sass = require('gulp-sass');
 var babel = require('gulp-babel');
 var concat = require('gulp-concat');
 var browserSync = require('browser-sync').create();
-
-gulp.task('task-name', function () {
-// код
-});
-
+var uglify = require('gulp-uglify');
 
 gulp.task('browserSync', function () {
     browserSync({
@@ -45,13 +41,16 @@ gulp.task('useref', function () {
         .pipe(gulp.dest('dist'))
 });
 
-gulp.task('babel', function () {
+gulp.task('script', function () {
     return gulp.src('app/js/**/*.js')
         .pipe(babel({
             presets: ['env']
         }))
+        .pipe(uglify())
         .pipe(gulp.dest('app/js'))
 });
+
+gulp.task('build', ['sass', 'useref', 'script']); //сборка релиза
 
 
 
