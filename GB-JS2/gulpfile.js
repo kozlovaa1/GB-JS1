@@ -1,11 +1,13 @@
 var gulp = require('gulp');
+var dest = require('gulp-dest');
+var useref = require('gulp-useref');
+var sass = require('gulp-sass');
+var babel = require('gulp-babel');
+var concat = require('gulp-concat');
+var browserSync = require('browser-sync').create();
+var uglify = require('gulp-uglify');
 
-gulp.task('task-name', function() {
-// код
-});
-
-
-gulp.task('browserSync', function() {
+gulp.task('browserSync', function () {
     browserSync({
         server: {
             baseDir: 'app'
@@ -13,25 +15,24 @@ gulp.task('browserSync', function() {
     })
 });
 
-gulp.task('sass', function() {
+gulp.task('sass', function () {
     return gulp.src('app/scss/**/*.scss') // Получаем все файлы с окончанием .scss в папке app/scss и дочерних директориях
         .pipe(sass())
+        .pipe(concat('style.css'))
         .pipe(gulp.dest('app/css'))
         .pipe(browserSync.reload({
             stream: true
         }))
 });
 
-gulp.task('watch', ['browserSync', 'sass'], function (){
-    gulp.watch('app/scss/**/*.scss', ['sass']);
-// Обновляем браузер при любых изменениях в HTML или JS
-    gulp.watch('app/*.html', browserSync.reload);
-    gulp.watch('app/js/**/*.js', browserSync.reload);
+gulp.task('watch', ['browserSync', 'sass'], function () {
+    gulp.watch('app/scss/**/*.scss', ['sass'])
+    // Обновляем браузер при любых изменениях в HTML или JS
+        .pipe('app/*.html', browserSync.reload)
+        .pipe('app/js/**/*.js', browserSync.reload)
 });
 
-var useref = require('gulp-useref');
-
-gulp.task('useref', function(){
+gulp.task('useref', function () {
     var assets = useref.assets();
     return gulp.src('app/*.html')
         .pipe(assets)
@@ -39,6 +40,17 @@ gulp.task('useref', function(){
         .pipe(useref())
         .pipe(gulp.dest('dist'))
 });
+
+gulp.task('script', function () {
+    return gulp.src('app/js/**/*.js')
+        .pipe(babel({
+            presets: ['env']
+        }))
+        .pipe(uglify())
+        .pipe(gulp.dest('app/js'))
+});
+
+gulp.task('build', ['sass', 'useref', 'script']); //сборка релиза
 
 
 
