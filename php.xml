@@ -15,7 +15,7 @@
       <interpreter name="PHP 7.2">
         <phpinfo binary_type="PHP" php_cgi="C:\OSPanel\modules\php\PHP-7.2-x64\php-cgi.exe" php_cli="C:\OSPanel\modules\php\PHP-7.2-x64\php.exe" path_separator=";" version="7.2.0">
           <additional_php_ini />
-          <configuration_file>C:\ospanel\modules\php\PHP-7.2-x64\php.ini</configuration_file>
+          <configuration_file>C:\OSPanel\modules\php\PHP-7.2-x64\php.ini</configuration_file>
           <configuration_options>
             <configuration_option name="SMTP" value="localhost" />
             <configuration_option name="allow_url_fopen" value="1" />
