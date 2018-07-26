@@ -97,6 +97,7 @@ function divide($x, $y)
         return $x / $y;
     } else {
         echo 'Делить на 0 нельзя.';
+        return NULL;
     }
 }
 
