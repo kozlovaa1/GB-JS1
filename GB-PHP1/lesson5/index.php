@@ -10,7 +10,7 @@ if (mysqli_connect_errno()) {
     exit();
 }
 $result = mysqli_query($link,"SELECT * FROM images WHERE size = 'small'");
-$result = mysqli_query($link,"SELECT * FROM images WHERE size = 'big'");
+$result2 = mysqli_query($link,"SELECT * FROM images WHERE size = 'big'");
 
 $epms = array();
 while($row = mysqli_fetch_assoc($result))
