@@ -22,6 +22,10 @@ mysqli_close($link);
     <title>Document</title>
 </head>
 <body>
-
+<div class="queryImageForm">
+    <input type="text">
+    <input type="submit">
+</div>
+<div class="image"></div>
 </body>
 </html>
