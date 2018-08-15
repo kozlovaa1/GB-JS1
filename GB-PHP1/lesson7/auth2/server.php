@@ -8,7 +8,7 @@ $pass= (isset($_POST['pass']))?strip_tags($_POST[pass]):'';
 $pass = md5($pass);
 
 
-$connect = mysqli_connect("localhost","root","","shop");
+$connect = mysqli_connect("localhost","root","","php1");
 $sql = "select * from users where login='$login' and pass='$pass'";
 $res = mysqli_query($connect,$sql);
 

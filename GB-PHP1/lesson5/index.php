@@ -4,19 +4,7 @@ $h1 = 'minimalistica';
 $year = date('Y');
 //$masFiles = scandir('img');
 
-$link = mysqli_connect("127.0.0.1", "root", "", "php1");
-if (mysqli_connect_errno()) {
-    printf("Не удалось подключиться: %s\n", mysqli_connect_error());
-    exit();
-}
-$result = mysqli_query($link,"SELECT * FROM images WHERE size = 'small'");
-$result2 = mysqli_query($link,"SELECT * FROM images WHERE size = 'big'");
-
-$epms = array();
-while($row = mysqli_fetch_assoc($result))
-    $epms[] = $row;
-
-mysqli_close($link);
+include('sqlconnect.php');
 ?>
 
 <!DOCTYPE html>
@@ -36,11 +24,16 @@ mysqli_close($link);
 
     <div class="gallery">
         <? foreach ($epms as $key => $image) { ?>
-                <div class="image"><a href="image-id.php<?= $image['link'] ?>" class="galleryItem"><img
+                <div class="image"><a href="<?= $image['link'] ?>" class="galleryItem"><img
                                 src="<?= $image['link'] ?>" alt="" title="<?= $image['name']?>"
                                 width="100"></a></div>
             <? } ?>
     </div>
 </div>
+<script
+        src="http://code.jquery.com/jquery-3.3.1.js"
+        integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+        crossorigin="anonymous"></script>
+<script src="js/script.js"></script>
 </body>
 </html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Магазинчик волшебства - Контакты</title>
+		<link rel="stylesheet" href="./css/style.css">
+		<link rel="icon" href="./img/favicon.png" type="icon/png">
+	</head>
+	<body>
+		<header>
+			<a href="./index.html"><img src="./img/logo.png" alt="Магазинчик волшебства"></a>
+			<ul class="menu">
+				<li><a href="index.html">Главная</a></li>
+				<li><a href="./catalog/catalog.html">Каталог</a></li>
+				<li><a href="contacts.html">Контакты</a></li>
+			</ul>
+			<hr>
+		</header>
+		<main>
+			<h1>Напишите нам</h1>
+			<h3>и волшебство не исчезнет</h3>
+			<form action="contacts.html">
+				<fieldset class="feedback">
+					<input type="name" name="Имя" placeholder="Имя" required="required"><br>
+					<input type="email" name="Email" placeholder="Email" required="required"><br>
+					<label for="message">Запиши послание:</label><br>
+					<textarea name="Послание" id="message" rows="5"></textarea><br>
+					<label for="change">Сделай свой выбор:</label><br>
+					<select name="Стихия" id="change">
+						<option disabled>Выбери свою стихию</option>
+						<option value="Стихия не определена">Стихия не определена</option>
+						<option value="Земля">Земля</option>
+						<option value="Вода">Вода</option>
+						<option value="Воздух">Воздух</option>
+						<option value="Огонь">Огонь</option>
+					</select><br>
+					<input type="submit" value="Отправить послание">
+				</fieldset>
+			</form>
+			<h2>Адрес</h2>
+			<p>Познаете, когда обретёте суть...</p>
+			<p>Ну, или позвоните: <a href="tel:+77777777777">+7 777 777-77-77</a></p>
+			<script type="text/javascript" charset="utf-8" async src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3A1bda360456dc4519b5f1cc5fe19852f8e98bf1b8a4c119346764f2f3baaaa9e6&amp;width=100%25&amp;height=374&amp;lang=ru_RU&amp;scroll=true"></script>
+		</main>
+		<footer>
+			<hr>
+			<p>&copy; Все права защищены</p>
+		</footer>
+	</body>
+</html>

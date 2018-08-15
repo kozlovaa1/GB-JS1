@@ -6,7 +6,7 @@ include_once "../models/core_img.php";
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Фотогаллерея</title>
+    <title>Фотогалерея</title>
     <link rel="stylesheet" href="css/styles.css" type="text/css" media="all">
 </head>
 <body>
