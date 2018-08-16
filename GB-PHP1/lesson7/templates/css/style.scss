@@ -20,41 +20,39 @@ header {
 	left: 0;
     right: 0;
 	padding: 0 15px;
-	background: url(../img/head_bg.png);
-    background-position: 50% 50%;
-    background-repeat: no-repeat;
+	background: url(../../public/img/head_bg.png) 50% 50% no-repeat;
     height: 100px;
     box-shadow: 0 0 50px #00137F;
 }
 .menu {
 	font-size: 14px;
-	font-family: "Verdana";
+	font-family: "Verdana", sans-serif;
 	list-style: none;
 	float: right;
 	margin-top: 30px;
 	z-index: 10;
-}
-.menu li {
-	display: inline-block;
-}
-.menu a{
-	text-decoration: none;
-	color: #C4C4C4;
-	padding: 10px;
-}
-.menu a:hover {
-	opacity: 0.9;
-	text-decoration: underline;
-}
+	& li {
+		display: inline-block;
+	}
+	& a {
+		text-decoration: none;
+		color: #C4C4C4;
+		padding: 10px;
 
+		&:hover {
+			opacity: 0.9;
+			text-decoration: underline;
+		}
+	}
+}
 footer {
 	flex: 0 0 auto;
 	height: 60px;
 	background: #C4AFCE;
-}
-footer p{
-	float: right;
-	padding: 15px;
+	& p {
+		float: right;
+		padding: 15px;
+	}
 }
 
 main {
@@ -83,12 +81,12 @@ h1, h2, h3{
 	font-size: 18px;
 	font-weight: 400;
 	background: #eaeaea;
-}
-.item_page .img {
-	width: 20%;
-	float: left;
-	margin: 15px 0;
-	text-align: center;
+	& .img {
+		width: 20%;
+		float: left;
+		margin: 15px 0;
+		text-align: center;
+	}
 }
 .desc {
 	float: right;
@@ -108,7 +106,6 @@ h1, h2, h3{
 	width: 150px;
 	height: 30px;
 	border: 2px solid purple;
-	-ms-border-radius: 20px;
 	-webkit-border-radius: 20px;
 	-moz-border-radius: 20px;
 	border-radius: 20px;
@@ -117,20 +114,20 @@ h1, h2, h3{
 	color: white;
 	text-decoration: none;
 	font-size: 20px;
-    padding-top: 5px;
-    font-weight: 600;
-}
-.buy_button:hover {
-	background: white;
-	color: purple;
-}
-.buy_button:focus {
-	width: 130px;
-	height: 20px;
-	border-radius: 15px;
-	font-size: 18px;
-    padding-top: 5px;
-    font-weight: 500;
+	padding-top: 5px;
+	font-weight: 600;
+	&:hover {
+		background: white;
+		color: purple;
+	}
+	&:focus {
+		width: 130px;
+		height: 20px;
+		border-radius: 15px;
+		font-size: 18px;
+		padding-top: 5px;
+		font-weight: 500;
+	}
 }
 .clearfix {
 	clear: both;
@@ -146,7 +143,7 @@ h1, h2, h3{
 	color: #505050;
 	font-size: 14px;
 	line-height: 20px;
-	list-style-image: url(../img/wand.png);
+	list-style-image: url(../../public/img/wand.png);
 }
 .feedback input, .feedback textarea, .feedback select {
 	width: 200px;
@@ -165,11 +162,11 @@ fieldset {
 	height: 150px;
 }
 .img img {
-    height: 200px;
-    outline: 3px solid purple;
-}
-.img img:hover {
-    outline: 0px;
+	height: 200px;
+	outline: 3px solid purple;
+	& img:hover {
+		outline: 0;
+	}
 }
 input, textarea {
 	text-transform: capitalize;
