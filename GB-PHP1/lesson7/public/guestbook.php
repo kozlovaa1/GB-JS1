@@ -6,7 +6,7 @@ include_once "../models/core_guestbook.php";
 <head>
     <meta charset="utf-8">
     <title>Гостевая книга - Интернет-магазин ноутбуков</title>
-    <link rel="stylesheet" href="css/styles.css" type="text/css" media="all">
+    <link rel="stylesheet" href="../templates/css/styles.css" type="text/css" media="all">
 </head>
 <body>
 <div id="container">

@@ -1,34 +1,11 @@
-<div class="footer-menu">
-    <div>
-        <h4>Category</h4>
-        <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">About us</a></li>
-            <li><a href="#">Shop</a></li>
-            <li><a href="#">Blog</a></li>
-        </ul>
-    </div>
-    <div>
-        <h4>Our Account</h4>
-        <ul>
-            <li><a href="#">Discount</a></li>
-            <li><a href="#">Addres</a></li>
-            <li><a href="#">Search</a></li>
-            <li><a href="#">Blog</a></li>
-        </ul>
-    </div>
-    <div>
-        <h4>Category</h4>
-        <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">About us</a></li>
-            <li><a href="#">Shop</a></li>
-            <li><a href="#">Blog</a></li>
-        </ul>
-    </div>
-    <div>
-        <h4>About Us</h4>
-        Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenea
-    </div>
-</div>
-<p>&copy; Все права защищены</p>
+</main>
+<footer>
+    <hr>
+    <p><?= date("Y") ?> &copy; Все права защищены</p>
+</footer>
+<script
+        src="http://code.jquery.com/jquery-3.3.1.js"
+        integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+        crossorigin="anonymous"></script>
+</body>
+</html>
