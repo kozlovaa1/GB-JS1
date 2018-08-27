@@ -8,6 +8,7 @@
 д) Что можно вынести в абстрактный класс, наследование?*/
 
 /*Абстрактный класс Товар*/
+
 abstract class Product
 {
     protected $id;
@@ -30,7 +31,8 @@ abstract class Product
 
 }
 
-/*Трэйт Доход с продаж, одинаковый для всех товаров*/
+/*Трейт Доход с продаж, одинаковый для всех товаров*/
+
 trait Revenue
 {
     public function getRevenue()
@@ -40,6 +42,7 @@ trait Revenue
 }
 
 /*Класс цифрового товара*/
+
 class ProductDigital extends Product
 {
     use Revenue;
@@ -56,6 +59,7 @@ class ProductDigital extends Product
 }
 
 /*Класс штучного товара*/
+
 class ProductPiece extends Product
 {
     use Revenue;
@@ -72,6 +76,7 @@ class ProductPiece extends Product
 }
 
 /*Класс товара по весу*/
+
 class ProductByWeight extends Product
 {
     use Revenue;
@@ -103,38 +108,30 @@ $revenue1 = $item1->getRevenue();
 $revenue2 = $item2->getRevenue();
 $revenue3 = $item3->getRevenue();
 
-echo "Доход 1: $revenue1 <br> Доход 2: $revenue2<br> Доход 3: $revenue3";
+echo "Доход 1: $revenue1 <br> Доход 2: $revenue2<br> Доход 3: $revenue3  <br> ";
 
 /*    2. *Реализовать паттерн Singleton при помощи traits.*/
 
-trait MyTrait
-{
-    public function myFunc()
-    {
-        return 2 + 2;
-    }
-}
-
-class Singleton
+trait Singleton
 {
     private static $instance; // Экземпляр объекта
 
-// Защищаем от создания через new Singleton
+    // Защищаем от создания через new Singleton
     private function __construct()
     { /* ... @return Singleton */
     }
 
-// Защищаем от создания через клонирование
+    // Защищаем от создания через клонирование
     private function __clone()
     { /* ... @return Singleton */
     }
 
-// Защищаем от создания через unserialize
+    // Защищаем от создания через unserialize
     private function __wakeup()
     { /* ... @return Singleton */
     }
 
-// Возвращает единственный экземпляр класса. @return Singleton
+    // Возвращает единственный экземпляр класса.
     public static function getInstance()
     {
         if (empty(self::$instance)) {
@@ -142,11 +139,16 @@ class Singleton
         }
         return self::$instance;
     }
-
-    public function doAction()
-    {
-    }
 }
 
-/* Применение*/
-Singleton::getInstance()->doAction();
+class MyClass
+{
+    use Singleton;
+
+    public function test() {
+        echo 'Тест';
+    }
+
+}
+
+MyClass::getInstance()->test();
