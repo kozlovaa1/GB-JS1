@@ -7,6 +7,7 @@
 г) У цифрового товара стоимость постоянная – дешевле штучного товара в два раза. У штучного товара обычная стоимость, у весового – в зависимости от продаваемого количества в килограммах. У всех формируется в конечном итоге доход с продаж.
 д) Что можно вынести в абстрактный класс, наследование?*/
 
+/*Абстрактный класс Товар*/
 abstract class Product
 {
     protected $id;
@@ -29,6 +30,7 @@ abstract class Product
 
 }
 
+/*Трэйт Доход с продаж, одинаковый для всех товаров*/
 trait Revenue
 {
     public function getRevenue()
@@ -37,6 +39,7 @@ trait Revenue
     }
 }
 
+/*Класс цифрового товара*/
 class ProductDigital extends Product
 {
     use Revenue;
@@ -52,6 +55,7 @@ class ProductDigital extends Product
     }
 }
 
+/*Класс штучного товара*/
 class ProductPiece extends Product
 {
     use Revenue;
@@ -67,6 +71,7 @@ class ProductPiece extends Product
     }
 }
 
+/*Класс товара по весу*/
 class ProductByWeight extends Product
 {
     use Revenue;
