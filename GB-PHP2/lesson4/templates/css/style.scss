@@ -1,12 +1,6 @@
-* {
-	margin: 0;
-}
 html,
 body {
 	height: 100%;
-}
-h1, h2, h3, div, p {
-	margin: 5px 0;
 }
 body {
 	display: flex;
@@ -20,11 +14,11 @@ header {
 	left: 0;
     right: 0;
 	padding: 0 15px;
-	background: url(../../public/img/head_bg.png) 50% 50% no-repeat;
+	background: url(../img/head_bg.png) 50% 50% no-repeat;
     height: 100px;
     box-shadow: 0 0 50px #00137F;
 }
-.menu {
+/*.menu {
 	font-size: 14px;
 	font-family: "Verdana", sans-serif;
 	list-style: none;
@@ -44,7 +38,7 @@ header {
 			text-decoration: underline;
 		}
 	}
-}
+}*/
 footer {
 	flex: 0 0 auto;
 	height: 60px;
